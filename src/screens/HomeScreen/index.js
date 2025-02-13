@@ -44,6 +44,11 @@ const HomeScreen = observer(({ navigation, stores }) => {
       label: "試験管理",
       onPress: () => navigation.navigate("Exam"),
     },
+    {
+      icon: "database-import-outline",
+      label: "データ管理",
+      onPress: () => navigation.navigate("ExportImport"),
+    },
   ];
 
   return (

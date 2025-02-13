@@ -43,12 +43,22 @@ class ExamStore {
    */
   async addExam(exam) {
     try {
-      const newExam = {
-        ...exam,
-        id: Date.now(),
-        questions: [],
-        genres: [],
-      };
+      let newExam;
+      if (exam.questions && exam.genres) {
+        // インポートされた試験データの場合
+        newExam = {
+          ...exam,
+          id: Date.now(),
+        };
+      } else {
+        // 新規作成の場合
+        newExam = {
+          ...exam,
+          id: Date.now(),
+          questions: [],
+          genres: [],
+        };
+      }
 
       const updatedExams = [...this.exams, newExam];
       await StorageManager.saveExams(updatedExams);

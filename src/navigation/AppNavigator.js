@@ -5,6 +5,7 @@ import React from "react";
 // スクリーンをインポート
 import ExamScreen from "../screens/ExamScreen";
 import ExamSelectScreen from "../screens/ExamSelectScreen";
+import ExportImportScreen from "../screens/ExportImportScreen";
 import GenreScreen from "../screens/GenreScreen";
 import HomeScreen from "../screens/HomeScreen";
 import QuestionAddScreen from "../screens/QuestionAddScreen";
@@ -53,6 +54,14 @@ const AppNavigator = () => {
           options={{
             animation: "fade",
             gestureEnabled: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="ExportImport"
+          component={ExportImportScreen}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
