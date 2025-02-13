@@ -1,82 +1,114 @@
-# シャーク問題アプリ (Shark Question App)
+# テスト対策アプリ
 
-問題集を管理・学習できるモバイルアプリケーション。
+TikTokのようなスワイプ操作で問題を解くことができるテスト対策アプリケーションです。
 
-Expo (React Native)で実装されています。
+## 機能
 
-## 📱 機能
+- 試験の作成・管理
+- ジャンルの作成・管理
+- 問題の作成・管理（最大8択、複数選択可能）
+- スワイプによる問題解答
+- 解答時間の計測
+- 正解・不正解のエフェクト表示
+- 学習モード
+  - ランダム10問
+  - 全問チャレンジ（順序/ランダム）
+  - 間違えた問題の復習
+  - ジャンル別フィルタリング
+- 結果画面での成績確認
 
-- 問題の登録・管理
-- ジャンル別問題管理
-- 試験モード
-- 学習進捗の記録
-- タイマー機能付き問題演習
+## セットアップ
 
-## 🛠 技術スタック
+### 必要条件
 
-### フロントエンド
-- Expo (React Native)
-- JavaScript
-- React Native Paper (UIフレームワーク)
-- react-native-drag-sort
+- Node.js 16.x以上
+- npm 8.x以上
+- Expo CLI
+- Android Studio（エミュレータ使用時）またはAndroidデバイス
 
-### データ永続化
-- AsyncStorage
-
-### 開発ツール
-- ESLint
-- Prettier
-
-## 🚀 開始方法
+### インストール
 
 ```bash
+# リポジトリのクローン
+git clone https://github.com/yourusername/shark-question.git
+cd shark-question
+
 # 依存パッケージのインストール
 npm install
+```
 
-# 開発サーバーの起動
+### 開発サーバーの起動
+
+```bash
 npm start
-
-# Androidでの実行
-npm run android
-
-# iOSでの実行
-npm run ios
 ```
 
-## 📂 プロジェクト構成
+Expo CLIが起動し、QRコードが表示されます。
+
+- AndroidエミュレータまたはAndroidデバイスでExpo Goアプリをインストール
+- Expo GoアプリでQRコードをスキャン、もしくは`a`キーを押してAndroidで起動
+
+## 技術スタック
+
+- [Expo](https://expo.dev/) (React Native)
+- [React Native Paper](https://callstack.github.io/react-native-paper/)
+- [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)
+- [react-native-drag-sort](https://github.com/computerjazz/react-native-drag-sort)
+- [MobX](https://mobx.js.org/)
+
+## プロジェクト構造
 
 ```
-.
-├── src/
-│   ├── components/     # 共通コンポーネント
-│   ├── screens/        # 画面コンポーネント
-│   ├── navigation/     # ナビゲーション設定
-│   ├── stores/        # 状態管理
-│   └── utils/         # ユーティリティ関数
-├── assets/            # 画像等の静的ファイル
-└── doc/              # プロジェクトドキュメント
+src/
+├── components/          # 共通コンポーネント
+│   ├── form/           # フォーム関連コンポーネント
+│   ├── layout/         # レイアウトコンポーネント
+│   ├── question/       # 問題関連コンポーネント
+│   └── ui/             # UI共通コンポーネント
+├── screens/            # 画面コンポーネント
+│   ├── ExamScreen/     # 試験管理画面
+│   ├── GenreScreen/    # ジャンル管理画面
+│   ├── HomeScreen/     # ホーム画面
+│   ├── QuestionScreen/ # 問題解答画面
+│   └── ResultScreen/   # 結果表示画面
+├── stores/             # 状態管理（MobX）
+├── navigation/         # ナビゲーション設定
+└── utils/             # ユーティリティ関数
+
 ```
 
-## 📚 ドキュメント
+## データ構造
 
-詳細な仕様やアーキテクチャについては、以下のドキュメントを参照してください：
+アプリケーションのデータはAsyncStorageを使用してJSONフォーマットでローカルに保存されます。
 
-- [システム概要](./doc/01_system_overview.md)
-- [画面フロー](./doc/02_screen_flow.md)
-- [データモデル](./doc/03_data_model.md)
-- [コンポーネント設計](./doc/04_component_design.md)
-- [状態管理設計](./doc/05_state_management.md)
+```typescript
+interface Exam {
+  id: number;
+  name: string;
+  detail: string;
+  questions: Question[];
+  genres: Genre[];
+}
 
-## 🔧 開発ガイドライン
+interface Question {
+  id: number;
+  question: string;
+  genre: string;
+  choices: Choice[];
+}
 
-### コンポーネント設計
+interface Choice {
+  id: number;
+  choice: string;
+  isCorrect: boolean;
+}
 
-- Atomic Designパターンに基づくコンポーネント設計
-- React Native Paperコンポーネントの積極的な活用
-- レスポンシブデザインの考慮
+interface Genre {
+  id: number;
+  name: string;
+}
+```
 
-### コーディング規約
+## ライセンス
 
-- ESLint/Prettierの標準ルールに準拠
-- コンポーネントは機能ごとにディレクトリを分割
-- 適切なコメントの記述
+このプロジェクトはMITライセンスの下で公開されています。詳細は[LICENSE](LICENSE)ファイルをご覧ください。
