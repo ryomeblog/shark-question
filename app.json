@@ -16,7 +16,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.sharkcoder.sharkquestion",
+      "package": "your-package-name",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
@@ -28,7 +28,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c5083b11-e3cb-440e-854c-b02de31a6f6c"
+        "projectId": "your-project-id"
       }
     }
   }
