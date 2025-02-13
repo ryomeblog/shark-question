@@ -28,7 +28,7 @@ const ExamFormModal = ({ visible, exam, onSave, onClose }) => {
       setDetail("");
     }
     setErrors({});
-  }, [exam, visible]);
+  }, [exam]);
 
   // バリデーション
   const validate = () => {
@@ -59,7 +59,7 @@ const ExamFormModal = ({ visible, exam, onSave, onClose }) => {
       >
         <TextInputField
           label="試験名"
-          value={name}
+          defaultValue={exam?.name || ""}
           onChangeText={setName}
           error={errors.name}
           placeholder="試験名を入力してください"
@@ -67,7 +67,7 @@ const ExamFormModal = ({ visible, exam, onSave, onClose }) => {
 
         <TextInputField
           label="詳細"
-          value={detail}
+          defaultValue={exam?.detail || ""}
           onChangeText={setDetail}
           error={errors.detail}
           placeholder="試験の詳細を入力してください"

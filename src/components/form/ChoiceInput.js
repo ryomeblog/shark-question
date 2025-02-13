@@ -24,7 +24,7 @@ const ChoiceInput = ({
         <View key={choice.id} style={styles.choiceRow}>
           <TextInput
             mode="outlined"
-            value={choice.choice}
+            defaultValue={choice.choice}
             onChangeText={(text) => onChoiceChange(choice.id, text)}
             placeholder={`選択肢 ${index + 1}`}
             style={styles.input}

@@ -36,7 +36,7 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
       setChoices([{ id: 1, choice: "", isCorrect: false }]);
     }
     setErrors({});
-  }, [question, visible]);
+  }, [question]);
 
   // ジャンル選択用のドロップダウンデータ
   const genreDropdownData =
@@ -128,7 +128,7 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
 
           <TextInputField
             label="問題文"
-            value={questionText}
+            defaultValue={question?.question || ""}
             onChangeText={setQuestionText}
             error={errors.questionText}
             placeholder="問題文を入力してください"

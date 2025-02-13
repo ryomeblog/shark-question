@@ -6,7 +6,7 @@ import { HelperText, TextInput } from "react-native-paper";
  * テキスト入力フィールドコンポーネント
  * @param {Object} props
  * @param {string} props.label - 入力フィールドのラベル
- * @param {string} props.value - 入力値
+ * @param {string} props.defaultValue - 初期値
  * @param {Function} props.onChangeText - テキスト変更時の処理
  * @param {string} props.error - エラーメッセージ
  * @param {string} props.placeholder - プレースホルダー
@@ -14,7 +14,7 @@ import { HelperText, TextInput } from "react-native-paper";
  */
 const TextInputField = ({
   label,
-  value,
+  defaultValue = "",
   onChangeText,
   error,
   placeholder,
@@ -24,7 +24,7 @@ const TextInputField = ({
     <>
       <TextInput
         label={label}
-        value={value}
+        defaultValue={defaultValue}
         onChangeText={onChangeText}
         error={!!error}
         placeholder={placeholder}

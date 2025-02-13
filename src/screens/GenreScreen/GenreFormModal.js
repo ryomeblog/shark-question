@@ -25,7 +25,7 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
       setName("");
     }
     setErrors({});
-  }, [genre, visible]);
+  }, [genre]);
 
   // バリデーション
   const validate = () => {
@@ -55,7 +55,7 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
       >
         <TextInputField
           label="ジャンル名"
-          value={name}
+          defaultValue={genre?.name || ""}
           onChangeText={setName}
           error={errors.name}
           placeholder="ジャンル名を入力してください"
