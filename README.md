@@ -80,4 +80,3 @@ npm run ios
 - ESLint/Prettierの標準ルールに準拠
 - コンポーネントは機能ごとにディレクトリを分割
 - 適切なコメントの記述
-- TypeScript/JSDocによる型定義
