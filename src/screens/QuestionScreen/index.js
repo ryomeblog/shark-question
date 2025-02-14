@@ -1,27 +1,22 @@
-import { observer } from "mobx-react-lite";
-import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Title } from "react-native-paper";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Title } from 'react-native-paper';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import QuestionCard from "../../components/question/QuestionCard";
-import ResultCard from "../../components/question/ResultCard";
-import TimerDisplay from "../../components/question/TimerDisplay";
-import { withStores } from "../../stores";
-import QuestionModeSelect from "./QuestionModeSelect";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import QuestionCard from '../../components/question/QuestionCard';
+import ResultCard from '../../components/question/ResultCard';
+import TimerDisplay from '../../components/question/TimerDisplay';
+import { withStores } from '../../stores';
+import QuestionModeSelect from './QuestionModeSelect';
 
 /**
  * 問題画面
  */
 const QuestionScreen = observer(({ navigation, route, stores }) => {
   const { examStore, progressStore } = stores;
-  const {
-    examId,
-    genre,
-    mode = "random",
-    ordered = false,
-  } = route.params || {};
+  const { examId, genre, mode = 'random', ordered = false } = route.params || {};
 
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,7 +27,7 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
   const [showModeSelect, setShowModeSelect] = useState(!mode);
 
   // 現在の試験
-  const currentExam = examStore.exams.find((exam) => exam.id === examId);
+  const currentExam = examStore.exams.find(exam => exam.id === examId);
 
   // 問題の取得
   useEffect(() => {
@@ -40,21 +35,19 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
       let selectedQuestions;
 
       switch (mode) {
-        case "wrong":
+        case 'wrong':
           const wrongQuestionIds = progressStore.getWrongQuestionIds(examId);
-          selectedQuestions = currentExam.questions.filter((q) =>
-            wrongQuestionIds.includes(q.id),
-          );
+          selectedQuestions = currentExam.questions.filter(q => wrongQuestionIds.includes(q.id));
           break;
 
-        case "all":
+        case 'all':
           selectedQuestions = [...currentExam.questions];
           if (!ordered) {
             selectedQuestions.sort(() => 0.5 - Math.random());
           }
           break;
 
-        case "random":
+        case 'random':
         default:
           selectedQuestions = examStore.getRandomQuestions(examId, 10, genre);
           break;
@@ -70,19 +63,17 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
 
   // 回答処理
   const handleAnswer = useCallback(
-    async (selectedChoices) => {
+    async selectedChoices => {
       const question = questions[currentIndex];
       const timeSpent = Date.now() - startTime;
       setTimerRunning(false);
 
       // 正解判定
-      const correctChoices = question.choices
-        .filter((c) => c.isCorrect)
-        .map((c) => c.id);
+      const correctChoices = question.choices.filter(c => c.isCorrect).map(c => c.id);
 
       const isCorrect =
         selectedChoices.length === correctChoices.length &&
-        selectedChoices.every((id) => correctChoices.includes(id));
+        selectedChoices.every(id => correctChoices.includes(id));
 
       // 結果の記録
       const result = {
@@ -104,13 +95,13 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
       // 3秒後に次の問題へ
       setTimeout(() => {
         if (currentIndex < questions.length - 1) {
-          setCurrentIndex((prev) => prev + 1);
+          setCurrentIndex(prev => prev + 1);
           setStartTime(Date.now());
           setTimerRunning(true);
           setShowResult(false);
         } else {
           // 全問終了
-          navigation.replace("Result", {
+          navigation.replace('Result', {
             examId,
             results: [...results, result],
           });
@@ -121,17 +112,14 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
   );
 
   // モード選択完了
-  const handleModeSelect = useCallback(
-    (selectedMode, selectedGenre, isOrdered) => {
-      navigation.setParams({
-        mode: selectedMode,
-        genre: selectedGenre,
-        ordered: isOrdered,
-      });
-      setShowModeSelect(false);
-    },
-    [],
-  );
+  const handleModeSelect = useCallback((selectedMode, selectedGenre, isOrdered) => {
+    navigation.setParams({
+      mode: selectedMode,
+      genre: selectedGenre,
+      ordered: isOrdered,
+    });
+    setShowModeSelect(false);
+  }, []);
 
   if (showModeSelect) {
     return (
@@ -146,7 +134,7 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
   return (
     <ScreenContainer>
       <Header
-        title={currentExam?.name || "問題"}
+        title={currentExam?.name || '問題'}
         leftIcon="close"
         onLeftPress={() => navigation.goBack()}
       />
@@ -184,20 +172,19 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    position: "relative",
   },
   timerContainer: {
-    position: "absolute",
-    top: 16,
-    right: 16,
+    position: 'absolute',
+    top: -70,
+    right: 15,
     zIndex: 1,
   },
   progress: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 16,
     left: 0,
     right: 0,
-    alignItems: "center",
+    alignItems: 'center',
   },
 });
 
