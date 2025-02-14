@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Button, Card, Paragraph, Title } from "react-native-paper";
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Card, Paragraph, Title } from 'react-native-paper';
 
 /**
  * 問題カードコンポーネント
@@ -12,11 +12,11 @@ import { Button, Card, Paragraph, Title } from "react-native-paper";
 const QuestionCard = ({ question, onAnswer, showResult = false }) => {
   const [selectedChoices, setSelectedChoices] = useState([]);
 
-  const handleChoicePress = (choiceId) => {
-    setSelectedChoices((prev) => {
+  const handleChoicePress = choiceId => {
+    setSelectedChoices(prev => {
       const isSelected = prev.includes(choiceId);
       if (isSelected) {
-        return prev.filter((id) => id !== choiceId);
+        return prev.filter(id => id !== choiceId);
       } else {
         return [...prev, choiceId];
       }
@@ -30,7 +30,7 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
     }
   };
 
-  const getChoiceStyle = (choice) => {
+  const getChoiceStyle = choice => {
     if (!showResult) {
       return selectedChoices.includes(choice.id) ? styles.selectedChoice : {};
     }
@@ -44,30 +44,30 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
 
   return (
     <Card style={styles.card}>
-      <Card.Content>
-        <Title>{question.question}</Title>
-        <Paragraph style={styles.genre}>ジャンル: {question.genre}</Paragraph>
-        <View style={styles.choices}>
-          {question.choices.map((choice) => (
-            <Button
-              key={choice.id}
-              mode="outlined"
-              onPress={() => handleChoicePress(choice.id)}
-              style={[styles.choice, getChoiceStyle(choice)]}
-              disabled={showResult}
-            >
-              {choice.choice}
-            </Button>
-          ))}
+      <Card.Content style={styles.cardContent}>
+        <View style={styles.questionHeader}>
+          <Title>{question.question}</Title>
+          <Paragraph style={styles.genre}>ジャンル: {question.genre}</Paragraph>
         </View>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.choices}>
+            {question.choices.map(choice => (
+              <Button
+                key={choice.id}
+                mode="outlined"
+                onPress={() => handleChoicePress(choice.id)}
+                style={[styles.choice, getChoiceStyle(choice)]}
+                disabled={showResult}
+              >
+                {choice.choice}
+              </Button>
+            ))}
+          </View>
+        </ScrollView>
       </Card.Content>
       {!showResult && (
-        <Card.Actions>
-          <Button
-            mode="contained"
-            onPress={handleSubmit}
-            disabled={selectedChoices.length === 0}
-          >
+        <Card.Actions style={styles.actions}>
+          <Button mode="contained" onPress={handleSubmit} disabled={selectedChoices.length === 0}>
             回答する
           </Button>
         </Card.Actions>
@@ -78,31 +78,52 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
 
 const styles = StyleSheet.create({
   card: {
-    margin: 16,
+    flex: 1,
     elevation: 4,
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  cardContent: {
+    flex: 1,
+    paddingBottom: 0,
+  },
+  questionHeader: {
+    paddingBottom: 16,
+  },
+  scrollView: {
+    flex: 1,
+    marginHorizontal: -16,
+    paddingHorizontal: 16,
   },
   genre: {
-    marginTop: 8,
-    color: "#666",
+    marginTop: 4,
+    color: '#666',
   },
   choices: {
     marginTop: 16,
+    paddingBottom: 16,
   },
   choice: {
     marginVertical: 8,
+    minHeight: 48,
     borderRadius: 8,
   },
   selectedChoice: {
-    backgroundColor: "#e3f2fd",
-    borderColor: "#2196f3",
+    backgroundColor: '#e3f2fd',
+    borderColor: '#2196f3',
   },
   correctChoice: {
-    backgroundColor: "#e8f5e9",
-    borderColor: "#4caf50",
+    backgroundColor: '#e8f5e9',
+    borderColor: '#4caf50',
   },
   incorrectChoice: {
-    backgroundColor: "#ffebee",
-    borderColor: "#f44336",
+    backgroundColor: '#ffebee',
+    borderColor: '#f44336',
+  },
+  actions: {
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+    marginTop: 'auto',
   },
 });
 

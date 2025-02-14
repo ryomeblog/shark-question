@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Title } from 'react-native-paper';
 
 import Header from '../../components/layout/Header';
@@ -139,25 +139,27 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
         onLeftPress={() => navigation.goBack()}
       />
 
-      <View style={styles.content}>
+      <View style={styles.container}>
         <View style={styles.timerContainer}>
           <TimerDisplay startTime={startTime} running={timerRunning} />
         </View>
 
-        {questions[currentIndex] && (
-          <QuestionCard
-            question={questions[currentIndex]}
-            onAnswer={handleAnswer}
-            showResult={showResult}
-          />
-        )}
+        <ScrollView style={styles.mainContent} contentContainerStyle={styles.scrollContent}>
+          {questions[currentIndex] && (
+            <QuestionCard
+              question={questions[currentIndex]}
+              onAnswer={handleAnswer}
+              showResult={showResult}
+            />
+          )}
 
-        {showResult && results[currentIndex] && (
-          <ResultCard
-            correct={results[currentIndex].isCorrect}
-            timeSpent={results[currentIndex].timeSpent}
-          />
-        )}
+          {showResult && results[currentIndex] && (
+            <ResultCard
+              correct={results[currentIndex].isCorrect}
+              timeSpent={results[currentIndex].timeSpent}
+            />
+          )}
+        </ScrollView>
 
         <View style={styles.progress}>
           <Title>
@@ -170,8 +172,17 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
 });
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
+    padding: 16,
+  },
+  mainContent: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingTop: 10,
+    paddingBottom: 80,
+    flexGrow: 1,
   },
   timerContainer: {
     position: 'absolute',
@@ -185,6 +196,8 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: 'center',
+    backgroundColor: 'white',
+    elevation: 4,
   },
 });
 
