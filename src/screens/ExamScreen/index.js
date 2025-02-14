@@ -1,14 +1,14 @@
-import { observer } from "mobx-react-lite";
-import React, { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import CustomFAB from "../../components/ui/CustomFAB";
-import ListItem from "../../components/ui/ListItem";
-import { withStores } from "../../stores";
-import ExamFormModal from "./ExamFormModal";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import CustomFAB from '../../components/ui/CustomFAB';
+import ListItem from '../../components/ui/ListItem';
+import { withStores } from '../../stores';
+import ExamFormModal from './ExamFormModal';
 
 /**
  * 試験管理画面
@@ -20,13 +20,13 @@ const ExamScreen = observer(({ navigation, stores }) => {
   const [selectedExam, setSelectedExam] = useState(null);
 
   // 編集ボタンのハンドラ
-  const handleEdit = useCallback((exam) => {
+  const handleEdit = useCallback(exam => {
     setSelectedExam(exam);
     setShowFormModal(true);
   }, []);
 
   // 削除ボタンのハンドラ
-  const handleDelete = useCallback((exam) => {
+  const handleDelete = useCallback(exam => {
     setSelectedExam(exam);
     setShowDeleteDialog(true);
   }, []);
@@ -42,7 +42,7 @@ const ExamScreen = observer(({ navigation, stores }) => {
 
   // フォームモーダルの保存
   const handleSave = useCallback(
-    async (examData) => {
+    async examData => {
       if (selectedExam) {
         await examStore.updateExam({
           ...selectedExam,
@@ -59,31 +59,27 @@ const ExamScreen = observer(({ navigation, stores }) => {
 
   return (
     <ScreenContainer>
-      <Header
-        title="試験管理"
-        leftIcon="arrow-left"
-        onLeftPress={() => navigation.goBack()}
-      />
+      <Header title="試験管理" leftIcon="arrow-left" onLeftPress={() => navigation.goBack()} />
 
-      <View style={styles.content}>
-        {examStore.exams.map((exam) => (
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+        {examStore.exams.map(exam => (
           <ListItem
             key={exam.id}
             title={exam.name}
             description={exam.detail}
             rightIcons={[
               {
-                icon: "pencil",
+                icon: 'pencil',
                 onPress: () => handleEdit(exam),
               },
               {
-                icon: "delete",
+                icon: 'delete',
                 onPress: () => handleDelete(exam),
               },
             ]}
           />
         ))}
-      </View>
+      </ScrollView>
 
       <CustomFAB
         icon="plus"
@@ -118,8 +114,12 @@ const ExamScreen = observer(({ navigation, stores }) => {
 });
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
+  },
+  content: {
+    padding: 16,
+    paddingBottom: 80,
   },
 });
 

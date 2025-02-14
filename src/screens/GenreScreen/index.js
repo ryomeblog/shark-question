@@ -1,15 +1,15 @@
-import { observer } from "mobx-react-lite";
-import React, { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import CustomFAB from "../../components/ui/CustomFAB";
-import ListItem from "../../components/ui/ListItem";
-import { withStores } from "../../stores";
-import GenreFormModal from "./GenreFormModal";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import CustomFAB from '../../components/ui/CustomFAB';
+import ListItem from '../../components/ui/ListItem';
+import { withStores } from '../../stores';
+import GenreFormModal from './GenreFormModal';
 
 /**
  * ジャンル管理画面
@@ -22,24 +22,22 @@ const GenreScreen = observer(({ navigation, route, stores }) => {
   const [selectedGenre, setSelectedGenre] = useState(null);
 
   // 選択中の試験
-  const currentExam = examStore.exams.find(
-    (exam) => exam.id === selectedExamId,
-  );
+  const currentExam = examStore.exams.find(exam => exam.id === selectedExamId);
 
   // 試験選択用のドロップダウンデータ
-  const examDropdownData = examStore.exams.map((exam) => ({
+  const examDropdownData = examStore.exams.map(exam => ({
     label: exam.name,
     value: exam.id,
   }));
 
   // 編集ボタンのハンドラ
-  const handleEdit = useCallback((genre) => {
+  const handleEdit = useCallback(genre => {
     setSelectedGenre(genre);
     setShowFormModal(true);
   }, []);
 
   // 削除ボタンのハンドラ
-  const handleDelete = useCallback((genre) => {
+  const handleDelete = useCallback(genre => {
     setSelectedGenre(genre);
     setShowDeleteDialog(true);
   }, []);
@@ -49,7 +47,7 @@ const GenreScreen = observer(({ navigation, route, stores }) => {
     if (selectedGenre && currentExam) {
       const updatedExam = {
         ...currentExam,
-        genres: currentExam.genres.filter((g) => g.id !== selectedGenre.id),
+        genres: currentExam.genres.filter(g => g.id !== selectedGenre.id),
       };
       await examStore.updateExam(updatedExam);
       setShowDeleteDialog(false);
@@ -59,13 +57,13 @@ const GenreScreen = observer(({ navigation, route, stores }) => {
 
   // フォームモーダルの保存
   const handleSave = useCallback(
-    async (genreData) => {
+    async genreData => {
       if (!currentExam) return;
 
       if (selectedGenre) {
         const updatedExam = {
           ...currentExam,
-          genres: currentExam.genres.map((g) =>
+          genres: currentExam.genres.map(g =>
             g.id === selectedGenre.id ? { ...g, ...genreData } : g,
           ),
         };
@@ -81,40 +79,36 @@ const GenreScreen = observer(({ navigation, route, stores }) => {
 
   return (
     <ScreenContainer>
-      <Header
-        title="ジャンル管理"
-        leftIcon="arrow-left"
-        onLeftPress={() => navigation.goBack()}
-      />
+      <Header title="ジャンル管理" leftIcon="arrow-left" onLeftPress={() => navigation.goBack()} />
 
-      <View style={styles.content}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <Dropdown
           data={examDropdownData}
           labelField="label"
           valueField="value"
           value={selectedExamId}
-          onChange={(item) => setSelectedExamId(item.value)}
+          onChange={item => setSelectedExamId(item.value)}
           placeholder="試験を選択してください"
           style={styles.dropdown}
         />
 
-        {currentExam?.genres.map((genre) => (
+        {currentExam?.genres.map(genre => (
           <ListItem
             key={genre.id}
             title={genre.name}
             rightIcons={[
               {
-                icon: "pencil",
+                icon: 'pencil',
                 onPress: () => handleEdit(genre),
               },
               {
-                icon: "delete",
+                icon: 'delete',
                 onPress: () => handleDelete(genre),
               },
             ]}
           />
         ))}
-      </View>
+      </ScrollView>
 
       <CustomFAB
         icon="plus"
@@ -152,13 +146,16 @@ const GenreScreen = observer(({ navigation, route, stores }) => {
 });
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
+  },
+  content: {
     padding: 16,
+    paddingBottom: 80,
   },
   dropdown: {
     height: 50,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,

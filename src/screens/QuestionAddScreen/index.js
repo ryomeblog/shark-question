@@ -1,15 +1,15 @@
-import { observer } from "mobx-react-lite";
-import React, { useCallback, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import CustomFAB from "../../components/ui/CustomFAB";
-import ListItem from "../../components/ui/ListItem";
-import { withStores } from "../../stores";
-import QuestionFormModal from "./QuestionFormModal";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import ConfirmDialog from '../../components/ui/ConfirmDialog';
+import CustomFAB from '../../components/ui/CustomFAB';
+import ListItem from '../../components/ui/ListItem';
+import { withStores } from '../../stores';
+import QuestionFormModal from './QuestionFormModal';
 
 /**
  * 問題追加画面
@@ -22,12 +22,10 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
 
   // 選択中の試験
-  const currentExam = examStore.exams.find(
-    (exam) => exam.id === selectedExamId,
-  );
+  const currentExam = examStore.exams.find(exam => exam.id === selectedExamId);
 
   // 試験選択用のドロップダウンデータ
-  const examDropdownData = examStore.exams.map((exam) => ({
+  const examDropdownData = examStore.exams.map(exam => ({
     label: exam.name,
     value: exam.id,
   }));
@@ -36,20 +34,20 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
   const handleGoToQuestions = useCallback(async () => {
     if (currentExam) {
       await examStore.setLastExamId(currentExam.id);
-      navigation.navigate("Question", {
+      navigation.navigate('Question', {
         examId: currentExam.id,
       });
     }
   }, [currentExam, navigation, examStore]);
 
   // 編集ボタンのハンドラ
-  const handleEdit = useCallback((question) => {
+  const handleEdit = useCallback(question => {
     setSelectedQuestion(question);
     setShowFormModal(true);
   }, []);
 
   // 削除ボタンのハンドラ
-  const handleDelete = useCallback((question) => {
+  const handleDelete = useCallback(question => {
     setSelectedQuestion(question);
     setShowDeleteDialog(true);
   }, []);
@@ -59,9 +57,7 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
     if (selectedQuestion && currentExam) {
       const updatedExam = {
         ...currentExam,
-        questions: currentExam.questions.filter(
-          (q) => q.id !== selectedQuestion.id,
-        ),
+        questions: currentExam.questions.filter(q => q.id !== selectedQuestion.id),
       };
       await examStore.updateExam(updatedExam);
       setShowDeleteDialog(false);
@@ -71,13 +67,13 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
 
   // フォームモーダルの保存
   const handleSave = useCallback(
-    async (questionData) => {
+    async questionData => {
       if (!currentExam) return;
 
       if (selectedQuestion) {
         const updatedExam = {
           ...currentExam,
-          questions: currentExam.questions.map((q) =>
+          questions: currentExam.questions.map(q =>
             q.id === selectedQuestion.id ? { ...q, ...questionData } : q,
           ),
         };
@@ -97,39 +93,39 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
         title="問題追加"
         leftIcon="arrow-left"
         onLeftPress={() => navigation.goBack()}
-        rightIcon={currentExam ? "play" : null}
+        rightIcon={currentExam ? 'play' : null}
         onRightPress={handleGoToQuestions}
       />
 
-      <View style={styles.content}>
+      <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <Dropdown
           data={examDropdownData}
           labelField="label"
           valueField="value"
           value={selectedExamId}
-          onChange={(item) => setSelectedExamId(item.value)}
+          onChange={item => setSelectedExamId(item.value)}
           placeholder="試験を選択してください"
           style={styles.dropdown}
         />
 
-        {currentExam?.questions.map((question) => (
+        {currentExam?.questions.map(question => (
           <ListItem
             key={question.id}
             title={question.question}
             description={`ジャンル: ${question.genre}`}
             rightIcons={[
               {
-                icon: "pencil",
+                icon: 'pencil',
                 onPress: () => handleEdit(question),
               },
               {
-                icon: "delete",
+                icon: 'delete',
                 onPress: () => handleDelete(question),
               },
             ]}
           />
         ))}
-      </View>
+      </ScrollView>
 
       <CustomFAB
         icon="plus"
@@ -168,13 +164,16 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
 });
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
+  },
+  content: {
     padding: 16,
+    paddingBottom: 80,
   },
   dropdown: {
     height: 50,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,
