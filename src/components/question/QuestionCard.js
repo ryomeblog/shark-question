@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Button, Card, Paragraph, Title } from 'react-native-paper';
 
 /**
@@ -42,6 +42,24 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
     return selectedChoices.includes(choice.id) ? styles.incorrectChoice : {};
   };
 
+  const renderChoice = choice => (
+    <View key={choice.id} style={styles.choiceWrapper}>
+      <Button
+        mode="outlined"
+        onPress={() => handleChoicePress(choice.id)}
+        style={[styles.choice, getChoiceStyle(choice)]}
+        disabled={showResult}
+        contentStyle={styles.choiceContent}
+      >
+        <View style={styles.choiceInner}>
+          <Text style={styles.choiceText} ellipsizeMode="clip" numberOfLines={0}>
+            {choice.choice}
+          </Text>
+        </View>
+      </Button>
+    </View>
+  );
+
   return (
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
@@ -50,19 +68,7 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
           <Paragraph style={styles.genre}>ジャンル: {question.genre}</Paragraph>
         </View>
         <ScrollView style={styles.scrollView}>
-          <View style={styles.choices}>
-            {question.choices.map(choice => (
-              <Button
-                key={choice.id}
-                mode="outlined"
-                onPress={() => handleChoicePress(choice.id)}
-                style={[styles.choice, getChoiceStyle(choice)]}
-                disabled={showResult}
-              >
-                {choice.choice}
-              </Button>
-            ))}
-          </View>
+          <View style={styles.choices}>{question.choices.map(renderChoice)}</View>
         </ScrollView>
       </Card.Content>
       {!showResult && (
@@ -92,8 +98,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    marginHorizontal: -16,
-    paddingHorizontal: 16,
   },
   genre: {
     marginTop: 4,
@@ -103,10 +107,30 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingBottom: 16,
   },
-  choice: {
+  choiceWrapper: {
     marginVertical: 8,
+  },
+  choice: {
     minHeight: 48,
     borderRadius: 8,
+  },
+  choiceContent: {
+    height: 'auto',
+    minHeight: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 0,
+  },
+  choiceInner: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    paddingHorizontal: 8,
+  },
+  choiceText: {
+    flex: 1,
+    textAlign: 'left',
+    fontSize: 16,
+    lineHeight: 24,
   },
   selectedChoice: {
     backgroundColor: '#e3f2fd',
