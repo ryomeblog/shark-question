@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Checkbox, IconButton, TextInput } from "react-native-paper";
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Checkbox, IconButton, TextInput } from 'react-native-paper';
 
 /**
  * 選択肢入力コンポーネント
@@ -25,13 +25,13 @@ const ChoiceInput = ({
           <TextInput
             mode="outlined"
             defaultValue={choice.choice}
-            onChangeText={(text) => onChoiceChange(choice.id, text)}
+            onChangeText={text => onChoiceChange(choice.id, text)}
             placeholder={`選択肢 ${index + 1}`}
             style={styles.input}
           />
           <View style={styles.actions}>
             <Checkbox
-              status={choice.isCorrect ? "checked" : "unchecked"}
+              status={choice.isCorrect ? 'checked' : 'unchecked'}
               onPress={() => onCorrectChange(choice.id, !choice.isCorrect)}
             />
             <IconButton
@@ -47,7 +47,7 @@ const ChoiceInput = ({
         <IconButton
           icon="plus-circle"
           size={24}
-          onPress={() => onChoiceChange(Date.now(), "")}
+          onPress={() => onChoiceChange(Date.now(), '')}
           style={styles.addButton}
         />
       )}
@@ -60,20 +60,20 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   choiceRow: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 8,
   },
   input: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   actions: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   addButton: {
-    alignSelf: "center",
+    alignSelf: 'center',
     margin: 8,
   },
 });

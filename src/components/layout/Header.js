@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Appbar } from "react-native-paper";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Appbar } from 'react-native-paper';
 
 /**
  * ヘッダーコンポーネント
@@ -14,13 +14,9 @@ import { Appbar } from "react-native-paper";
 const Header = ({ title, leftIcon, rightIcon, onLeftPress, onRightPress }) => {
   return (
     <Appbar.Header style={styles.header}>
-      {leftIcon && (
-        <Appbar.Action icon={leftIcon} onPress={onLeftPress} color="#fff" />
-      )}
+      {leftIcon && <Appbar.Action icon={leftIcon} onPress={onLeftPress} color="#fff" />}
       <Appbar.Content title={title} titleStyle={styles.title} />
-      {rightIcon && (
-        <Appbar.Action icon={rightIcon} onPress={onRightPress} color="#fff" />
-      )}
+      {rightIcon && <Appbar.Action icon={rightIcon} onPress={onRightPress} color="#fff" />}
     </Appbar.Header>
   );
 };
@@ -28,12 +24,12 @@ const Header = ({ title, leftIcon, rightIcon, onLeftPress, onRightPress }) => {
 const styles = StyleSheet.create({
   header: {
     elevation: 4,
-    backgroundColor: "#6200ee",
+    backgroundColor: '#6200ee',
   },
   title: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
-import { Modal, Portal, Title } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { Modal, Portal, Title } from 'react-native-paper';
 
-import ChoiceInput from "../../components/form/ChoiceInput";
-import TextInputField from "../../components/form/TextInputField";
-import CustomButton from "../../components/ui/CustomButton";
+import ChoiceInput from '../../components/form/ChoiceInput';
+import TextInputField from '../../components/form/TextInputField';
+import CustomButton from '../../components/ui/CustomButton';
 
 /**
  * 問題フォームモーダル
@@ -17,11 +17,9 @@ import CustomButton from "../../components/ui/CustomButton";
  * @param {Function} props.onClose - 閉じる時のコールバック
  */
 const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
-  const [questionText, setQuestionText] = useState("");
-  const [genre, setGenre] = useState("");
-  const [choices, setChoices] = useState([
-    { id: 1, choice: "", isCorrect: false },
-  ]);
+  const [questionText, setQuestionText] = useState('');
+  const [genre, setGenre] = useState('');
+  const [choices, setChoices] = useState([{ id: 1, choice: '', isCorrect: false }]);
   const [errors, setErrors] = useState({});
 
   // 編集時のデータ設定
@@ -31,27 +29,27 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
       setGenre(question.genre);
       setChoices(question.choices);
     } else {
-      setQuestionText("");
-      setGenre("");
-      setChoices([{ id: 1, choice: "", isCorrect: false }]);
+      setQuestionText('');
+      setGenre('');
+      setChoices([{ id: 1, choice: '', isCorrect: false }]);
     }
     setErrors({});
   }, [question]);
 
   // ジャンル選択用のドロップダウンデータ
   const genreDropdownData =
-    exam?.genres.map((g) => ({
+    exam?.genres.map(g => ({
       label: g.name,
       value: g.name,
     })) || [];
 
   // 選択肢の変更ハンドラ
   const handleChoiceChange = (id, text) => {
-    setChoices((prev) => {
+    setChoices(prev => {
       // 既存の選択肢の場合は更新
-      const existingChoice = prev.find((c) => c.id === id);
+      const existingChoice = prev.find(c => c.id === id);
       if (existingChoice) {
-        return prev.map((c) => (c.id === id ? { ...c, choice: text } : c));
+        return prev.map(c => (c.id === id ? { ...c, choice: text } : c));
       }
       // 新しい選択肢の場合は追加
       return [...prev, { id, choice: text, isCorrect: false }];
@@ -60,14 +58,12 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
 
   // 正解フラグの変更ハンドラ
   const handleCorrectChange = (id, isCorrect) => {
-    setChoices((prev) =>
-      prev.map((c) => (c.id === id ? { ...c, isCorrect } : c)),
-    );
+    setChoices(prev => prev.map(c => (c.id === id ? { ...c, isCorrect } : c)));
   };
 
   // 選択肢の削除ハンドラ
-  const handleDeleteChoice = (id) => {
-    setChoices((prev) => prev.filter((c) => c.id !== id));
+  const handleDeleteChoice = id => {
+    setChoices(prev => prev.filter(c => c.id !== id));
   };
 
   // バリデーション
@@ -76,25 +72,24 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
 
     // 問題文のチェック
     if (!questionText.trim()) {
-      newErrors.questionText = "問題文を入力してください";
+      newErrors.questionText = '問題文を入力してください';
     }
 
     // ジャンルのチェック
     if (!genre) {
-      newErrors.genre = "ジャンルを選択してください";
+      newErrors.genre = 'ジャンルを選択してください';
     }
 
     // 選択肢のチェック
     if (choices.length < 2) {
-      newErrors.choices = "少なくとも2つの選択肢を追加してください";
-    } else if (!choices.some((c) => c.isCorrect)) {
-      newErrors.choices = "正解の選択肢を少なくとも1つ設定してください";
-    } else if (choices.every((c) => c.isCorrect)) {
-      newErrors.choices = "すべての選択肢を正解にすることはできません";
+      newErrors.choices = '少なくとも2つの選択肢を追加してください';
+    } else if (!choices.some(c => c.isCorrect)) {
+      newErrors.choices = '正解の選択肢を少なくとも1つ設定してください';
+    } else if (choices.every(c => c.isCorrect)) {
+      newErrors.choices = 'すべての選択肢を正解にすることはできません';
     }
-    if (choices.some((c) => !c.choice.trim())) {
-      newErrors.choices =
-        "空の選択肢が存在します。すべての選択肢にテキストを入力してください";
+    if (choices.some(c => !c.choice.trim())) {
+      newErrors.choices = '空の選択肢が存在します。すべての選択肢にテキストを入力してください';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -106,7 +101,7 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
       onSave({
         question: questionText.trim(),
         genre,
-        choices: choices.map((c) => ({
+        choices: choices.map(c => ({
           ...c,
           choice: c.choice.trim(),
         })),
@@ -116,19 +111,13 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
 
   return (
     <Portal>
-      <Modal
-        visible={visible}
-        onDismiss={onClose}
-        contentContainerStyle={styles.container}
-      >
+      <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.container}>
         <ScrollView>
-          <Title style={styles.title}>
-            {question ? "問題の編集" : "新規問題の追加"}
-          </Title>
+          <Title style={styles.title}>{question ? '問題の編集' : '新規問題の追加'}</Title>
 
           <TextInputField
             label="問題文"
-            defaultValue={question?.question || ""}
+            defaultValue={question?.question || ''}
             onChangeText={setQuestionText}
             error={errors.questionText}
             placeholder="問題文を入力してください"
@@ -141,13 +130,11 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
               labelField="label"
               valueField="value"
               value={genre}
-              onChange={(item) => setGenre(item.value)}
+              onChange={item => setGenre(item.value)}
               placeholder="ジャンルを選択してください"
               style={styles.dropdown}
             />
-            {errors.genre && (
-              <Text style={styles.errorText}>{errors.genre}</Text>
-            )}
+            {errors.genre && <Text style={styles.errorText}>{errors.genre}</Text>}
           </View>
 
           <View style={styles.choicesContainer}>
@@ -159,17 +146,10 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
               onDeleteChoice={handleDeleteChoice}
               maxChoices={8}
             />
-            {errors.choices && (
-              <Text style={styles.errorText}>{errors.choices}</Text>
-            )}
+            {errors.choices && <Text style={styles.errorText}>{errors.choices}</Text>}
           </View>
 
-          <CustomButton
-            label="保存"
-            onPress={handleSave}
-            mode="contained"
-            style={styles.button}
-          />
+          <CustomButton label="保存" onPress={handleSave} mode="contained" style={styles.button} />
 
           <CustomButton
             label="キャンセル"
@@ -185,11 +165,11 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 20,
     margin: 20,
     borderRadius: 8,
-    maxHeight: "80%",
+    maxHeight: '80%',
   },
   title: {
     marginBottom: 16,
@@ -199,7 +179,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 50,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -215,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   errorText: {
-    color: "#B00020",
+    color: '#B00020',
     fontSize: 12,
     marginTop: 4,
   },

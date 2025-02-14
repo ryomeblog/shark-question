@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Animated, StyleSheet, View } from "react-native";
-import { Card, Text, Title } from "react-native-paper";
+import React, { useEffect } from 'react';
+import { Animated, StyleSheet, View } from 'react-native';
+import { Card, Text, Title } from 'react-native-paper';
 
 /**
  * 結果表示カードコンポーネント
@@ -9,7 +9,7 @@ import { Card, Text, Title } from "react-native-paper";
  * @param {string} props.message - 表示メッセージ
  * @param {number} props.timeSpent - 解答にかかった時間（ミリ秒）
  */
-const ResultCard = ({ correct, message = "", timeSpent }) => {
+const ResultCard = ({ correct, message = '', timeSpent }) => {
   const scaleAnim = new Animated.Value(0);
   const opacityAnim = new Animated.Value(0);
 
@@ -41,10 +41,10 @@ const ResultCard = ({ correct, message = "", timeSpent }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const formatTime = (ms) => {
+  const formatTime = ms => {
     const seconds = Math.floor(ms / 1000);
     const milliseconds = ms % 1000;
-    return `${seconds}.${milliseconds.toString().padStart(3, "0")}秒`;
+    return `${seconds}.${milliseconds.toString().padStart(3, '0')}秒`;
   };
 
   return (
@@ -57,16 +57,9 @@ const ResultCard = ({ correct, message = "", timeSpent }) => {
         },
       ]}
     >
-      <Card
-        style={[
-          styles.card,
-          correct ? styles.correctCard : styles.incorrectCard,
-        ]}
-      >
+      <Card style={[styles.card, correct ? styles.correctCard : styles.incorrectCard]}>
         <Card.Content>
-          <Title style={styles.result}>
-            {correct ? "正解！" : "不正解..."}
-          </Title>
+          <Title style={styles.result}>{correct ? '正解！' : '不正解...'}</Title>
           {message && <Text style={styles.message}>{message}</Text>}
           <View style={styles.timeContainer}>
             <Text style={styles.timeLabel}>回答時間：</Text>
@@ -80,47 +73,47 @@ const ResultCard = ({ correct, message = "", timeSpent }) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    top: "40%",
+    position: 'absolute',
+    top: '40%',
     left: 0,
     right: 0,
-    alignItems: "center",
+    alignItems: 'center',
     zIndex: 1000,
   },
   card: {
-    width: "80%",
+    width: '80%',
     elevation: 8,
   },
   correctCard: {
-    backgroundColor: "#4caf50",
+    backgroundColor: '#4caf50',
   },
   incorrectCard: {
-    backgroundColor: "#f44336",
+    backgroundColor: '#f44336',
   },
   result: {
-    color: "#fff",
-    textAlign: "center",
+    color: '#fff',
+    textAlign: 'center',
     fontSize: 24,
     marginBottom: 8,
   },
   message: {
-    color: "#fff",
-    textAlign: "center",
+    color: '#fff',
+    textAlign: 'center',
     marginBottom: 8,
   },
   timeContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 8,
   },
   timeLabel: {
-    color: "#fff",
+    color: '#fff',
     marginRight: 4,
   },
   timeValue: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 16,
   },
 });

@@ -1,13 +1,13 @@
-import { observer } from "mobx-react-lite";
-import React, { useMemo } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Divider, Text, Title } from "react-native-paper";
+import { observer } from 'mobx-react-lite';
+import React, { useMemo } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Divider, Text, Title } from 'react-native-paper';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import CustomButton from "../../components/ui/CustomButton";
-import ListItem from "../../components/ui/ListItem";
-import { withStores } from "../../stores";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import CustomButton from '../../components/ui/CustomButton';
+import ListItem from '../../components/ui/ListItem';
+import { withStores } from '../../stores';
 
 /**
  * 結果画面
@@ -17,12 +17,12 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
   const { examId, results } = route.params;
 
   // 現在の試験
-  const currentExam = examStore.exams.find((exam) => exam.id === examId);
+  const currentExam = examStore.exams.find(exam => exam.id === examId);
 
   // 結果のサマリー
   const summary = useMemo(() => {
     const totalQuestions = results.length;
-    const correctAnswers = results.filter((r) => r.isCorrect).length;
+    const correctAnswers = results.filter(r => r.isCorrect).length;
     const totalTime = results.reduce((sum, r) => sum + r.timeSpent, 0);
     const averageTime = Math.round(totalTime / totalQuestions);
 
@@ -35,35 +35,35 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
   }, [results]);
 
   // 時間のフォーマット（分:秒.ミリ秒）
-  const formatTime = (ms) => {
+  const formatTime = ms => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     const milliseconds = Math.floor((ms % 1000) / 10);
 
-    return `${minutes.toString().padStart(2, "0")}:${seconds
+    return `${minutes.toString().padStart(2, '0')}:${seconds
       .toString()
-      .padStart(2, "0")}.${milliseconds.toString().padStart(2, "0")}`;
+      .padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
   };
 
   // 問題の再チャレンジ
   const handleRetryAll = () => {
-    navigation.replace("Question", {
+    navigation.replace('Question', {
       examId,
-      mode: "random",
+      mode: 'random',
     });
   };
 
   // 間違えた問題の再チャレンジ
   const handleRetryWrong = () => {
-    navigation.replace("Question", {
+    navigation.replace('Question', {
       examId,
-      mode: "wrong",
+      mode: 'wrong',
     });
   };
 
   // ホームに戻る
   const handleGoHome = () => {
-    navigation.navigate("Home");
+    navigation.navigate('Home');
   };
 
   return (
@@ -81,22 +81,15 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
                 {summary.correctAnswers} / {summary.totalQuestions}
               </Title>
               <Text style={styles.statSubtext}>
-                (
-                {Math.round(
-                  (summary.correctAnswers / summary.totalQuestions) * 100,
-                )}
+                ({Math.round((summary.correctAnswers / summary.totalQuestions) * 100)}
                 %)
               </Text>
             </View>
 
             <View style={styles.statItem}>
               <Text style={styles.statLabel}>合計時間</Text>
-              <Title style={styles.statValue}>
-                {formatTime(summary.totalTime)}
-              </Title>
-              <Text style={styles.statSubtext}>
-                平均 {formatTime(summary.averageTime)} / 問
-              </Text>
+              <Title style={styles.statValue}>{formatTime(summary.totalTime)}</Title>
+              <Text style={styles.statSubtext}>平均 {formatTime(summary.averageTime)} / 問</Text>
             </View>
           </View>
         </View>
@@ -106,9 +99,7 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
         <Title style={styles.sectionTitle}>問題一覧</Title>
 
         {results.map((result, index) => {
-          const question = currentExam?.questions.find(
-            (q) => q.id === result.questionId,
-          );
+          const question = currentExam?.questions.find(q => q.id === result.questionId);
           if (!question) return null;
 
           return (
@@ -116,7 +107,7 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
               key={`result-${index}`}
               title={question.question}
               description={`時間: ${formatTime(result.timeSpent)}`}
-              leftIcon={result.isCorrect ? "check-circle" : "close-circle"}
+              leftIcon={result.isCorrect ? 'check-circle' : 'close-circle'}
               style={[
                 styles.resultItem,
                 result.isCorrect ? styles.correctItem : styles.incorrectItem,
@@ -164,19 +155,19 @@ const styles = StyleSheet.create({
   },
   examName: {
     fontSize: 24,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: 24,
   },
   statsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   statItem: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   statLabel: {
     fontSize: 16,
-    color: "#666",
+    color: '#666',
   },
   statValue: {
     fontSize: 28,
@@ -184,7 +175,7 @@ const styles = StyleSheet.create({
   },
   statSubtext: {
     fontSize: 14,
-    color: "#666",
+    color: '#666',
   },
   divider: {
     marginVertical: 16,
@@ -199,10 +190,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   correctItem: {
-    backgroundColor: "#e8f5e9",
+    backgroundColor: '#e8f5e9',
   },
   incorrectItem: {
-    backgroundColor: "#ffebee",
+    backgroundColor: '#ffebee',
   },
   buttonContainer: {
     padding: 16,

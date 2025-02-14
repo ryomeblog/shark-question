@@ -1,5 +1,5 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import StorageManager from "../utils/storage";
+import { makeAutoObservable, runInAction } from 'mobx';
+import StorageManager from '../utils/storage';
 
 /**
  * 試験データストア
@@ -23,7 +23,7 @@ class ExamStore {
     try {
       this.loading = true;
       const exams = await StorageManager.getExams();
-      const lastExamId = await StorageManager.getData("lastExamId");
+      const lastExamId = await StorageManager.getData('lastExamId');
       runInAction(() => {
         this.exams = exams;
         this.loading = false;
@@ -79,8 +79,8 @@ class ExamStore {
    */
   async updateExam(exam) {
     try {
-      const index = this.exams.findIndex((e) => e.id === exam.id);
-      if (index === -1) throw new Error("試験が見つかりません");
+      const index = this.exams.findIndex(e => e.id === exam.id);
+      if (index === -1) throw new Error('試験が見つかりません');
 
       const updatedExams = [...this.exams];
       updatedExams[index] = exam;
@@ -103,7 +103,7 @@ class ExamStore {
    */
   async deleteExam(examId) {
     try {
-      const updatedExams = this.exams.filter((exam) => exam.id !== examId);
+      const updatedExams = this.exams.filter(exam => exam.id !== examId);
       await StorageManager.saveExams(updatedExams);
 
       runInAction(() => {
@@ -126,8 +126,8 @@ class ExamStore {
    */
   async addGenre(examId, genre) {
     try {
-      const exam = this.exams.find((e) => e.id === examId);
-      if (!exam) throw new Error("試験が見つかりません");
+      const exam = this.exams.find(e => e.id === examId);
+      if (!exam) throw new Error('試験が見つかりません');
 
       const newGenre = {
         ...genre,
@@ -154,8 +154,8 @@ class ExamStore {
    */
   async addQuestion(examId, question) {
     try {
-      const exam = this.exams.find((e) => e.id === examId);
-      if (!exam) throw new Error("試験が見つかりません");
+      const exam = this.exams.find(e => e.id === examId);
+      if (!exam) throw new Error('試験が見つかりません');
 
       const newQuestion = {
         ...question,
@@ -183,12 +183,12 @@ class ExamStore {
    * @returns {Array} ランダムな問題の配列
    */
   getRandomQuestions(examId, count, genre = null) {
-    const exam = this.exams.find((e) => e.id === examId);
+    const exam = this.exams.find(e => e.id === examId);
     if (!exam) return [];
 
     let questions = exam.questions;
     if (genre) {
-      questions = questions.filter((q) => q.genre === genre);
+      questions = questions.filter(q => q.genre === genre);
     }
 
     const shuffled = [...questions].sort(() => 0.5 - Math.random());
@@ -201,7 +201,7 @@ class ExamStore {
    */
   async setLastExamId(examId) {
     try {
-      await StorageManager.saveData("lastExamId", examId);
+      await StorageManager.saveData('lastExamId', examId);
       runInAction(() => {
         this.lastExamId = examId;
       });
@@ -217,7 +217,7 @@ class ExamStore {
    * @param {number} examId - 試験ID
    */
   setCurrentExam(examId) {
-    const exam = this.exams.find((e) => e.id === examId);
+    const exam = this.exams.find(e => e.id === examId);
     this.currentExam = exam || null;
   }
 }

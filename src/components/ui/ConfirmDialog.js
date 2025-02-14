@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Button, Dialog, Paragraph, Portal } from "react-native-paper";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, Dialog, Paragraph, Portal } from 'react-native-paper';
 
 /**
  * 確認ダイアログコンポーネント

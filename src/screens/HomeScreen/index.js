@@ -1,12 +1,12 @@
-import { observer } from "mobx-react-lite";
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Title } from "react-native-paper";
+import { observer } from 'mobx-react-lite';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Title } from 'react-native-paper';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import CustomButton from "../../components/ui/CustomButton";
-import { withStores } from "../../stores";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import CustomButton from '../../components/ui/CustomButton';
+import { withStores } from '../../stores';
 
 /**
  * ホーム画面
@@ -17,37 +17,37 @@ const HomeScreen = observer(({ navigation, stores }) => {
 
   // 前回の試験から開始
   const handleLastExam = () => {
-    navigation.navigate("Question", {
+    navigation.navigate('Question', {
       examId: examStore.lastExamId,
-      mode: "random",
+      mode: 'random',
     });
   };
 
   const menuButtons = [
     {
-      icon: "book-open-variant",
-      label: "問題を解く",
-      onPress: () => navigation.navigate("ExamSelect"),
+      icon: 'book-open-variant',
+      label: '問題を解く',
+      onPress: () => navigation.navigate('ExamSelect'),
     },
     {
-      icon: "pencil",
-      label: "問題を追加",
-      onPress: () => navigation.navigate("QuestionAdd"),
+      icon: 'pencil',
+      label: '問題を追加',
+      onPress: () => navigation.navigate('QuestionAdd'),
     },
     {
-      icon: "tag-multiple",
-      label: "ジャンル管理",
-      onPress: () => navigation.navigate("Genre"),
+      icon: 'tag-multiple',
+      label: 'ジャンル管理',
+      onPress: () => navigation.navigate('Genre'),
     },
     {
-      icon: "clipboard-list",
-      label: "試験管理",
-      onPress: () => navigation.navigate("Exam"),
+      icon: 'clipboard-list',
+      label: '試験管理',
+      onPress: () => navigation.navigate('Exam'),
     },
     {
-      icon: "database-import-outline",
-      label: "データ管理",
-      onPress: () => navigation.navigate("ExportImport"),
+      icon: 'database-import-outline',
+      label: 'データ管理',
+      onPress: () => navigation.navigate('ExportImport'),
     },
   ];
 
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 24,
-    textAlign: "center",
+    textAlign: 'center',
   },
   buttonContainer: {
     gap: 16,

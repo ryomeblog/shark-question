@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Provider as PaperProvider } from "react-native-paper";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import React, { useEffect, useState } from 'react';
+import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import AppNavigator from "./src/navigation/AppNavigator";
-import rootStore from "./src/stores";
-import StorageManager from "./src/utils/storage";
+import AppNavigator from './src/navigation/AppNavigator';
+import rootStore from './src/stores';
+import StorageManager from './src/utils/storage';
 
 /**
  * アプリケーションのルートコンポーネント
@@ -30,7 +30,7 @@ export default function App() {
 
         setIsReady(true);
       } catch (error) {
-        console.error("Failed to initialize app:", error);
+        console.error('Failed to initialize app:', error);
         // エラー処理（必要に応じて実装）
       }
     };

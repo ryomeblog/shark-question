@@ -1,16 +1,16 @@
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
 
 // スクリーンをインポート
-import ExamScreen from "../screens/ExamScreen";
-import ExamSelectScreen from "../screens/ExamSelectScreen";
-import ExportImportScreen from "../screens/ExportImportScreen";
-import GenreScreen from "../screens/GenreScreen";
-import HomeScreen from "../screens/HomeScreen";
-import QuestionAddScreen from "../screens/QuestionAddScreen";
-import QuestionScreen from "../screens/QuestionScreen";
-import ResultScreen from "../screens/ResultScreen";
+import ExamScreen from '../screens/ExamScreen';
+import ExamSelectScreen from '../screens/ExamSelectScreen';
+import ExportImportScreen from '../screens/ExportImportScreen';
+import GenreScreen from '../screens/GenreScreen';
+import HomeScreen from '../screens/HomeScreen';
+import QuestionAddScreen from '../screens/QuestionAddScreen';
+import QuestionScreen from '../screens/QuestionScreen';
+import ResultScreen from '../screens/ResultScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,9 +24,9 @@ const AppNavigator = () => {
         initialRouteName="Home"
         screenOptions={{
           headerShown: false,
-          animation: "slide_from_right",
+          animation: 'slide_from_right',
           gestureEnabled: true,
-          gestureDirection: "horizontal",
+          gestureDirection: 'horizontal',
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
@@ -43,7 +43,7 @@ const AppNavigator = () => {
           name="Question"
           component={QuestionScreen}
           options={{
-            animation: "fade",
+            animation: 'fade',
             gestureEnabled: false,
           }}
         />
@@ -52,7 +52,7 @@ const AppNavigator = () => {
           name="Result"
           component={ResultScreen}
           options={{
-            animation: "fade",
+            animation: 'fade',
             gestureEnabled: false,
           }}
         />

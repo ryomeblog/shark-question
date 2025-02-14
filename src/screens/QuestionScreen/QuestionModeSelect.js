@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
-import { RadioButton, Text, Title } from "react-native-paper";
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
+import { RadioButton, Text, Title } from 'react-native-paper';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import CustomButton from "../../components/ui/CustomButton";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import CustomButton from '../../components/ui/CustomButton';
 
 /**
  * 問題モード選択画面
@@ -15,13 +15,13 @@ import CustomButton from "../../components/ui/CustomButton";
  * @param {Function} props.onCancel - キャンセル時のコールバック
  */
 const QuestionModeSelect = ({ exam, onSelect, onCancel }) => {
-  const [mode, setMode] = useState("random");
-  const [genre, setGenre] = useState("");
+  const [mode, setMode] = useState('random');
+  const [genre, setGenre] = useState('');
   const [ordered, setOrdered] = useState(false);
 
   // ジャンル選択用のドロップダウンデータ
   const genreDropdownData =
-    exam?.genres.map((g) => ({
+    exam?.genres.map(g => ({
       label: g.name,
       value: g.name,
     })) || [];
@@ -33,19 +33,12 @@ const QuestionModeSelect = ({ exam, onSelect, onCancel }) => {
 
   return (
     <ScreenContainer>
-      <Header
-        title="出題モード選択"
-        leftIcon="arrow-left"
-        onLeftPress={onCancel}
-      />
+      <Header title="出題モード選択" leftIcon="arrow-left" onLeftPress={onCancel} />
 
       <View style={styles.content}>
         <Title style={styles.sectionTitle}>出題モード</Title>
 
-        <RadioButton.Group
-          onValueChange={(value) => setMode(value)}
-          value={mode}
-        >
+        <RadioButton.Group onValueChange={value => setMode(value)} value={mode}>
           <View style={styles.radioItem}>
             <RadioButton value="random" />
             <Text>ランダム10問</Text>
@@ -62,12 +55,12 @@ const QuestionModeSelect = ({ exam, onSelect, onCancel }) => {
           </View>
         </RadioButton.Group>
 
-        {mode === "all" && (
+        {mode === 'all' && (
           <View style={styles.section}>
             <Title style={styles.sectionTitle}>出題順序</Title>
             <RadioButton.Group
-              onValueChange={(value) => setOrdered(value === "ordered")}
-              value={ordered ? "ordered" : "random"}
+              onValueChange={value => setOrdered(value === 'ordered')}
+              value={ordered ? 'ordered' : 'random'}
             >
               <View style={styles.radioItem}>
                 <RadioButton value="random" />
@@ -89,7 +82,7 @@ const QuestionModeSelect = ({ exam, onSelect, onCancel }) => {
             labelField="label"
             valueField="value"
             value={genre}
-            onChange={(item) => setGenre(item.value)}
+            onChange={item => setGenre(item.value)}
             placeholder="すべてのジャンル"
             style={styles.dropdown}
           />
@@ -99,12 +92,7 @@ const QuestionModeSelect = ({ exam, onSelect, onCancel }) => {
         </View>
 
         <View style={styles.buttonContainer}>
-          <CustomButton
-            label="開始"
-            onPress={handleStart}
-            mode="contained"
-            style={styles.button}
-          />
+          <CustomButton label="開始" onPress={handleStart} mode="contained" style={styles.button} />
 
           <CustomButton
             label="キャンセル"
@@ -131,13 +119,13 @@ const styles = StyleSheet.create({
     marginTop: 24,
   },
   radioItem: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 8,
   },
   dropdown: {
     height: 50,
-    borderColor: "#ccc",
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 8,
@@ -145,7 +133,7 @@ const styles = StyleSheet.create({
   },
   hint: {
     fontSize: 12,
-    color: "#666",
+    color: '#666',
   },
   buttonContainer: {
     marginTop: 32,

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import { Modal, Portal } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
 
-import TextInputField from "../../components/form/TextInputField";
-import CustomButton from "../../components/ui/CustomButton";
+import TextInputField from '../../components/form/TextInputField';
+import CustomButton from '../../components/ui/CustomButton';
 
 /**
  * ジャンルフォームモーダル
@@ -14,7 +14,7 @@ import CustomButton from "../../components/ui/CustomButton";
  * @param {Function} props.onClose - 閉じる時のコールバック
  */
 const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
   const [errors, setErrors] = useState({});
 
   // 編集時のデータ設定
@@ -22,7 +22,7 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
     if (genre) {
       setName(genre.name);
     } else {
-      setName("");
+      setName('');
     }
     setErrors({});
   }, [genre]);
@@ -31,7 +31,7 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
   const validate = () => {
     const newErrors = {};
     if (!name.trim()) {
-      newErrors.name = "ジャンル名を入力してください";
+      newErrors.name = 'ジャンル名を入力してください';
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -48,32 +48,18 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
 
   return (
     <Portal>
-      <Modal
-        visible={visible}
-        onDismiss={onClose}
-        contentContainerStyle={styles.container}
-      >
+      <Modal visible={visible} onDismiss={onClose} contentContainerStyle={styles.container}>
         <TextInputField
           label="ジャンル名"
-          defaultValue={genre?.name || ""}
+          defaultValue={genre?.name || ''}
           onChangeText={setName}
           error={errors.name}
           placeholder="ジャンル名を入力してください"
         />
 
-        <CustomButton
-          label="保存"
-          onPress={handleSave}
-          mode="contained"
-          style={styles.button}
-        />
+        <CustomButton label="保存" onPress={handleSave} mode="contained" style={styles.button} />
 
-        <CustomButton
-          label="キャンセル"
-          onPress={onClose}
-          mode="outlined"
-          style={styles.button}
-        />
+        <CustomButton label="キャンセル" onPress={onClose} mode="outlined" style={styles.button} />
       </Modal>
     </Portal>
   );
@@ -81,7 +67,7 @@ const GenreFormModal = ({ visible, genre, onSave, onClose }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 20,
     margin: 20,
     borderRadius: 8,

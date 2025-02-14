@@ -1,5 +1,5 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import StorageManager from "../utils/storage";
+import { makeAutoObservable, runInAction } from 'mobx';
+import StorageManager from '../utils/storage';
 
 /**
  * 進捗データストア
@@ -92,11 +92,7 @@ class ProgressStore {
    */
   getWrongQuestionIds(examId) {
     return [
-      ...new Set(
-        this.wrongAnswers
-          .filter((wa) => wa.examId === examId)
-          .map((wa) => wa.questionId),
-      ),
+      ...new Set(this.wrongAnswers.filter(wa => wa.examId === examId).map(wa => wa.questionId)),
     ];
   }
 

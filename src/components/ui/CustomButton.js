@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
 /**
  * カスタムボタンコンポーネント
@@ -11,13 +11,7 @@ import { Button } from "react-native-paper";
  * @param {string} props.icon - アイコン名
  * @param {boolean} props.disabled - 無効状態
  */
-const CustomButton = ({
-  label,
-  onPress,
-  mode = "contained",
-  icon,
-  disabled = false,
-}) => {
+const CustomButton = ({ label, onPress, mode = 'contained', icon, disabled = false }) => {
   return (
     <Button
       mode={mode}

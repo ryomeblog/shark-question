@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Text } from "react-native-paper";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-paper';
 
 /**
  * タイマー表示コンポーネント
@@ -30,14 +30,14 @@ const TimerDisplay = ({ startTime, running }) => {
   }, [running, startTime]);
 
   // 経過時間をフォーマット（分:秒.ミリ秒）
-  const formatTime = (ms) => {
+  const formatTime = ms => {
     const minutes = Math.floor(ms / 60000);
     const seconds = Math.floor((ms % 60000) / 1000);
     const milliseconds = Math.floor((ms % 1000) / 10);
 
-    return `${minutes.toString().padStart(2, "0")}:${seconds
+    return `${minutes.toString().padStart(2, '0')}:${seconds
       .toString()
-      .padStart(2, "0")}.${milliseconds.toString().padStart(2, "0")}`;
+      .padStart(2, '0')}.${milliseconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -50,16 +50,16 @@ const TimerDisplay = ({ startTime, running }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 8,
-    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     borderRadius: 8,
-    position: "absolute",
+    position: 'absolute',
     right: 16,
     top: 16,
   },
   timer: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 20,
-    fontFamily: "monospace",
+    fontFamily: 'monospace',
   },
 });
 

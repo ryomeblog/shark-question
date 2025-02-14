@@ -1,9 +1,9 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // ストレージのキー定数
 export const STORAGE_KEYS = {
-  EXAM_STORE: "@exam_store",
-  USER_PROGRESS: "@user_progress",
+  EXAM_STORE: '@exam_store',
+  USER_PROGRESS: '@user_progress',
 };
 
 /**
@@ -20,7 +20,7 @@ class StorageManager {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(key, jsonValue);
     } catch (error) {
-      console.error("Error saving data:", error);
+      console.error('Error saving data:', error);
       throw error;
     }
   }
@@ -35,7 +35,7 @@ class StorageManager {
       const jsonValue = await AsyncStorage.getItem(key);
       return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (error) {
-      console.error("Error reading data:", error);
+      console.error('Error reading data:', error);
       throw error;
     }
   }
@@ -85,7 +85,7 @@ class StorageManager {
         answerHistory: [],
       });
     } catch (error) {
-      console.error("Error initializing storage:", error);
+      console.error('Error initializing storage:', error);
       throw error;
     }
   }

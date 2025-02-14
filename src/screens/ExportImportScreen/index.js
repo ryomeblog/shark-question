@@ -1,17 +1,17 @@
-import * as Clipboard from "expo-clipboard";
-import { observer } from "mobx-react-lite";
-import React, { useCallback, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Dialog, Portal, Text, TextInput } from "react-native-paper";
+import * as Clipboard from 'expo-clipboard';
+import { observer } from 'mobx-react-lite';
+import React, { useCallback, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Button, Dialog, Portal, Text, TextInput } from 'react-native-paper';
 
-import Header from "../../components/layout/Header";
-import ScreenContainer from "../../components/layout/ScreenContainer";
-import { withStores } from "../../stores";
+import Header from '../../components/layout/Header';
+import ScreenContainer from '../../components/layout/ScreenContainer';
+import { withStores } from '../../stores';
 import {
   compressAndEncode,
   decodeAndDecompress,
   validateImportData,
-} from "../../utils/exportImport";
+} from '../../utils/exportImport';
 
 /**
  * JSONエクスポート/インポート画面
@@ -19,8 +19,8 @@ import {
 const ExportImportScreen = observer(({ stores, navigation }) => {
   const { examStore } = stores;
   const [selectedExamId, setSelectedExamId] = useState(null);
-  const [exportedData, setExportedData] = useState("");
-  const [importData, setImportData] = useState("");
+  const [exportedData, setExportedData] = useState('');
+  const [importData, setImportData] = useState('');
   const [showDialog, setShowDialog] = useState(false);
   const [dialogExam, setDialogExam] = useState(null);
 
@@ -33,14 +33,13 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
     }
 
     try {
-      const exam = examStore.exams.find((e) => e.id === selectedExamId);
-      console.log("exam", exam);
+      const exam = examStore.exams.find(e => e.id === selectedExamId);
       if (!exam) return;
 
       const encoded = compressAndEncode(exam);
       setExportedData(encoded);
     } catch (error) {
-      console.error("エクスポートエラー:", error);
+      console.error('エクスポートエラー:', error);
     }
   }, [selectedExamId, examStore.exams]);
 
@@ -61,7 +60,6 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
       if (!importData) return;
 
       const decodedData = decodeAndDecompress(importData);
-      console.log("decodedData", decodedData);
 
       if (!validateImportData(decodedData)) {
         return;
@@ -70,7 +68,7 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
       setDialogExam(decodedData);
       setShowDialog(true);
     } catch (error) {
-      console.error("インポートエラー:", error);
+      console.error('インポートエラー:', error);
     }
   }, [importData]);
 
@@ -80,7 +78,7 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
   const handleConfirmImport = useCallback(() => {
     if (dialogExam) {
       examStore.addExam(dialogExam);
-      setImportData("");
+      setImportData('');
       setDialogExam(null);
     }
     setShowDialog(false);
@@ -97,10 +95,10 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>エクスポート</Text>
           <View style={styles.examSelect}>
-            {examStore.exams.map((exam) => (
+            {examStore.exams.map(exam => (
               <Button
                 key={exam.id}
-                mode={selectedExamId === exam.id ? "contained" : "outlined"}
+                mode={selectedExamId === exam.id ? 'contained' : 'outlined'}
                 onPress={() => setSelectedExamId(exam.id)}
                 style={styles.examButton}
               >
@@ -127,11 +125,7 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
                 editable={false}
                 style={styles.textInput}
               />
-              <Button
-                mode="contained"
-                onPress={handleCopy}
-                style={styles.button}
-              >
+              <Button mode="contained" onPress={handleCopy} style={styles.button}>
                 クリップボードにコピー
               </Button>
             </View>
@@ -165,9 +159,9 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
           <Dialog.Title>確認</Dialog.Title>
           <Dialog.Content>
             <Text>
-              試験「{dialogExam?.name}」をインポートしますか？{"\n"}
+              試験「{dialogExam?.name}」をインポートしますか？{'\n'}
               問題数: {dialogExam?.questions?.length || 0}
-              {"\n"}
+              {'\n'}
               ジャンル数: {dialogExam?.genres?.length || 0}
             </Text>
           </Dialog.Content>
@@ -191,12 +185,12 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 16,
   },
   examSelect: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     marginBottom: 16,
   },
   examButton: {

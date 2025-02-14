@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { IconButton, List } from "react-native-paper";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { IconButton, List } from 'react-native-paper';
 
 /**
  * リストアイテムコンポーネント
@@ -15,9 +15,7 @@ const ListItem = ({ title, description, leftIcon, rightIcons = [] }) => {
     <List.Item
       title={title}
       description={description}
-      left={
-        leftIcon ? (props) => <List.Icon {...props} icon={leftIcon} /> : null
-      }
+      left={leftIcon ? props => <List.Icon {...props} icon={leftIcon} /> : null}
       right={() => (
         <React.Fragment>
           {rightIcons.map((iconProps, index) => (
@@ -39,7 +37,7 @@ const ListItem = ({ title, description, leftIcon, rightIcons = [] }) => {
 const styles = StyleSheet.create({
   item: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: '#e0e0e0',
   },
   rightIcon: {
     marginHorizontal: 4,

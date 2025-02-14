@@ -1,6 +1,6 @@
-import React from "react";
-import { StyleSheet } from "react-native";
-import { HelperText, TextInput } from "react-native-paper";
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { HelperText, TextInput } from 'react-native-paper';
 
 /**
  * テキスト入力フィールドコンポーネント
@@ -14,7 +14,7 @@ import { HelperText, TextInput } from "react-native-paper";
  */
 const TextInputField = ({
   label,
-  defaultValue = "",
+  defaultValue = '',
   onChangeText,
   error,
   placeholder,
@@ -44,7 +44,7 @@ const TextInputField = ({
 const styles = StyleSheet.create({
   input: {
     marginVertical: 8,
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   multilineInput: {
     minHeight: 100,
