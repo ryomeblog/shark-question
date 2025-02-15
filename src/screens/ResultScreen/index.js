@@ -131,7 +131,7 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
                   result.isCorrect ? styles.correctItem : styles.incorrectItem,
                 ]}
               />
-              {isSelected && question.detail && (
+              {isSelected && (
                 <View
                   style={[
                     styles.detailContainer,
@@ -147,8 +147,12 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
                       >{`${choiceIndex + 1}. ${choice.choice}`}</Text>
                     ))}
                   </View>
-                  <Title style={styles.detailTitle}>解説</Title>
-                  <Text style={styles.detailText}>{question.detail}</Text>
+                  {question.detail && (
+                    <>
+                      <Title style={styles.detailTitle}>解説</Title>
+                      <Text style={styles.detailText}>{question.detail}</Text>
+                    </>
+                  )}
                 </View>
               )}
             </View>

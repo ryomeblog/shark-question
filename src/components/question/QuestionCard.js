@@ -64,7 +64,7 @@ const QuestionCard = ({ question, onAnswer, showResult = false }) => {
     <Card style={styles.card}>
       <Card.Content style={styles.cardContent}>
         <View style={styles.questionHeader}>
-          <Title>{question.question}</Title>
+          <Title style={styles.questionTitle}>{question.question}</Title>
           <Paragraph style={styles.genre}>ジャンル: {question.genre}</Paragraph>
         </View>
         <ScrollView style={styles.scrollView}>
@@ -96,6 +96,9 @@ const styles = StyleSheet.create({
   },
   questionHeader: {
     paddingBottom: 16,
+  },
+  questionTitle: {
+    color: '#000000',
   },
   scrollView: {
     flex: 1,

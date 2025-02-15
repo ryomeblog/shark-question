@@ -162,7 +162,7 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
         </ScrollView>
 
         <View style={styles.progress}>
-          <Title>
+          <Title style={styles.progressTitle}>
             {currentIndex + 1} / {questions.length}
           </Title>
         </View>
@@ -198,6 +198,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     elevation: 4,
+  },
+  progressTitle: {
+    color: '#000000',
   },
 });
 
