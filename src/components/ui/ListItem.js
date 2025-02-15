@@ -17,6 +17,8 @@ const ListItem = ({ title, description, leftIcon, rightIcons = [], onPress, styl
     <List.Item
       title={title}
       description={description}
+      titleStyle={styles.title}
+      descriptionStyle={styles.description}
       left={leftIcon ? props => <List.Icon {...props} icon={leftIcon} /> : null}
       right={() => (
         <React.Fragment>
@@ -41,9 +43,16 @@ const styles = StyleSheet.create({
   item: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: '#e0e0e0',
+    backgroundColor: '#ffffff',
   },
   rightIcon: {
     marginHorizontal: 4,
+  },
+  title: {
+    color: '#000000',
+  },
+  description: {
+    color: '#000000',
   },
 });
 

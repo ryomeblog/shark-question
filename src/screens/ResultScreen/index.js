@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
   examName: {
     fontSize: 24,
     textAlign: 'center',
+    color: '#000000',
     marginBottom: 24,
   },
   statsContainer: {

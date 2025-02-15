@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     elevation: 4,
+    backgroundColor: '#ffffff',
     marginHorizontal: 16,
     marginVertical: 8,
   },
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
   },
   genre: {
     marginTop: 4,
-    color: '#666',
+    color: '#000000',
   },
   choices: {
     marginTop: 16,
@@ -130,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'left',
     fontSize: 16,
+    color: '#000000',
     lineHeight: 24,
   },
   selectedChoice: {
