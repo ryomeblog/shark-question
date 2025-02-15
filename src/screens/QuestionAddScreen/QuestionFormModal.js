@@ -18,6 +18,7 @@ import CustomButton from '../../components/ui/CustomButton';
  */
 const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
   const [questionText, setQuestionText] = useState('');
+  const [detail, setDetail] = useState('');
   const [genre, setGenre] = useState('');
   const [choices, setChoices] = useState([{ id: 1, choice: '', isCorrect: false }]);
   const [errors, setErrors] = useState({});
@@ -26,10 +27,12 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
   useEffect(() => {
     if (question) {
       setQuestionText(question.question);
+      setDetail(question.detail || '');
       setGenre(question.genre);
       setChoices(question.choices);
     } else {
       setQuestionText('');
+      setDetail('');
       setGenre('');
       setChoices([{ id: 1, choice: '', isCorrect: false }]);
     }
@@ -100,6 +103,7 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
     if (validate()) {
       onSave({
         question: questionText.trim(),
+        detail: detail.trim(),
         genre,
         choices: choices.map(c => ({
           ...c,
@@ -122,6 +126,16 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onClose }) => {
             error={errors.questionText}
             placeholder="問題文を入力してください"
             multiline
+          />
+
+          <TextInputField
+            label="解説（任意）"
+            defaultValue={question?.detail || ''}
+            onChangeText={setDetail}
+            placeholder="解説を入力してください"
+            multiline
+            numberOfLines={3}
+            style={styles.detailInput}
           />
 
           <View style={styles.dropdownContainer}>
@@ -190,6 +204,9 @@ const styles = StyleSheet.create({
   choicesTitle: {
     fontSize: 18,
     marginBottom: 8,
+  },
+  detailInput: {
+    marginTop: 8,
   },
   button: {
     marginTop: 16,

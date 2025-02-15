@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { Divider, Text, Title } from 'react-native-paper';
 
@@ -15,6 +15,20 @@ import { withStores } from '../../stores';
 const ResultScreen = observer(({ navigation, route, stores }) => {
   const { examStore } = stores;
   const { examId, results } = route.params;
+  const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
+
+  // 問題の選択状態を切り替える
+  const toggleQuestionDetail = questionId => {
+    setSelectedQuestionIds(prevIds => {
+      if (prevIds.includes(questionId)) {
+        // 既に選択されている場合は削除
+        return prevIds.filter(id => id !== questionId);
+      } else {
+        // 選択されていない場合は追加
+        return [...prevIds, questionId];
+      }
+    });
+  };
 
   // 現在の試験
   const currentExam = examStore.exams.find(exam => exam.id === examId);
@@ -102,17 +116,42 @@ const ResultScreen = observer(({ navigation, route, stores }) => {
           const question = currentExam?.questions.find(q => q.id === result.questionId);
           if (!question) return null;
 
+          const isSelected = selectedQuestionIds.includes(question.id);
+
           return (
-            <ListItem
-              key={`result-${index}`}
-              title={question.question}
-              description={`時間: ${formatTime(result.timeSpent)}`}
-              leftIcon={result.isCorrect ? 'check-circle' : 'close-circle'}
-              style={[
-                styles.resultItem,
-                result.isCorrect ? styles.correctItem : styles.incorrectItem,
-              ]}
-            />
+            <View key={`result-${index}`}>
+              <ListItem
+                title={question.question}
+                description={`時間: ${formatTime(result.timeSpent)}`}
+                leftIcon={result.isCorrect ? 'check-circle' : 'close-circle'}
+                onPress={() => toggleQuestionDetail(question.id)}
+                style={[
+                  styles.itemContainer,
+                  styles.resultItem,
+                  result.isCorrect ? styles.correctItem : styles.incorrectItem,
+                ]}
+              />
+              {isSelected && question.detail && (
+                <View
+                  style={[
+                    styles.detailContainer,
+                    result.isCorrect ? styles.correctDetail : styles.incorrectDetail,
+                  ]}
+                >
+                  <Text style={styles.questionText}>{question.question}</Text>
+                  <View style={styles.choicesContainer}>
+                    {question.choices.map((choice, choiceIndex) => (
+                      <Text
+                        key={`choice-${choiceIndex}`}
+                        style={[styles.choiceText, choice.isCorrect && styles.correctChoiceText]}
+                      >{`${choiceIndex + 1}. ${choice.choice}`}</Text>
+                    ))}
+                  </View>
+                  <Title style={styles.detailTitle}>解説</Title>
+                  <Text style={styles.detailText}>{question.detail}</Text>
+                </View>
+              )}
+            </View>
           );
         })}
 
@@ -186,6 +225,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     color: '#000000',
   },
+  itemContainer: {
+    overflow: 'hidden',
+  },
   resultItem: {
     marginHorizontal: 16,
     marginBottom: 8,
@@ -196,6 +238,50 @@ const styles = StyleSheet.create({
   },
   incorrectItem: {
     backgroundColor: '#ffebee',
+  },
+  detailContainer: {
+    marginHorizontal: 16,
+    marginBottom: 8,
+    padding: 16,
+    borderRadius: 8,
+  },
+  correctDetail: {
+    backgroundColor: '#e8f5e9',
+    borderColor: '#81c784',
+    borderWidth: 1,
+  },
+  incorrectDetail: {
+    backgroundColor: '#ffebee',
+    borderColor: '#e57373',
+    borderWidth: 1,
+  },
+  questionText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    color: '#000000',
+  },
+  choicesContainer: {
+    marginBottom: 16,
+  },
+  choiceText: {
+    fontSize: 14,
+    marginBottom: 8,
+    color: '#000000',
+  },
+  correctChoiceText: {
+    color: '#d32f2f',
+    fontWeight: 'bold',
+  },
+  detailTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#000000',
+  },
+  detailText: {
+    color: '#000000',
+    lineHeight: 20,
   },
   buttonContainer: {
     padding: 16,

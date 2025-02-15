@@ -9,8 +9,10 @@ import { IconButton, List } from 'react-native-paper';
  * @param {string} props.description - アイテムの説明（オプション）
  * @param {string} props.leftIcon - 左側のアイコン（オプション）
  * @param {Array<{icon: string, onPress: Function}>} props.rightIcons - 右側のアイコンボタン配列
+ * @param {Function} props.onPress - タップ時のコールバック関数（オプション）
+ * @param {Object} props.style - スタイルオブジェクト（オプション）
  */
-const ListItem = ({ title, description, leftIcon, rightIcons = [] }) => {
+const ListItem = ({ title, description, leftIcon, rightIcons = [], onPress, style }) => {
   return (
     <List.Item
       title={title}
@@ -29,7 +31,8 @@ const ListItem = ({ title, description, leftIcon, rightIcons = [] }) => {
           ))}
         </React.Fragment>
       )}
-      style={styles.item}
+      onPress={onPress}
+      style={[styles.item, style]}
     />
   );
 };
