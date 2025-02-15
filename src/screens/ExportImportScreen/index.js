@@ -116,7 +116,7 @@ const ExportImportScreen = observer(({ stores, navigation }) => {
           </Button>
           {exportedData ? (
             <View style={styles.resultContainer}>
-              <Text>エクスポートデータ:</Text>
+              <Text style={styles.text}>エクスポートデータ:</Text>
               <TextInput
                 mode="outlined"
                 value={exportedData}
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#000000',
     marginBottom: 16,
   },
   examSelect: {
@@ -204,6 +205,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
+  },
+  text: {
+    color: '#000000',
   },
 });
 

@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   title: {
     marginBottom: 24,
     textAlign: 'center',
+    color: '#000000',
   },
   buttonContainer: {
     gap: 16,

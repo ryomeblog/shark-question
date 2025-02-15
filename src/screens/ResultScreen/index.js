@@ -167,15 +167,16 @@ const styles = StyleSheet.create({
   },
   statLabel: {
     fontSize: 16,
-    color: '#666',
+    color: '#000000',
   },
   statValue: {
     fontSize: 28,
     marginVertical: 4,
+    color: '#000000',
   },
   statSubtext: {
     fontSize: 14,
-    color: '#666',
+    color: '#000000',
   },
   divider: {
     marginVertical: 16,
@@ -183,6 +184,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     marginHorizontal: 16,
     marginBottom: 16,
+    color: '#000000',
   },
   resultItem: {
     marginHorizontal: 16,

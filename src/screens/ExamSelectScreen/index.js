@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     marginBottom: 16,
-    color: '#666',
+    color: '#000000',
   },
   button: {
     width: '100%',
