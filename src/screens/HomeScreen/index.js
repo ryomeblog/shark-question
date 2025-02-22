@@ -6,14 +6,14 @@ import { Title } from 'react-native-paper';
 import Header from '../../components/layout/Header';
 import ScreenContainer from '../../components/layout/ScreenContainer';
 import CustomButton from '../../components/ui/CustomButton';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 
 /**
  * ホーム画面
  */
-const HomeScreen = observer(({ navigation, stores }) => {
+const HomeScreen = observer(({ navigation }) => {
   // メニューボタンの設定
-  const { examStore } = stores;
+  const { examStore } = useStores();
 
   // 前回の試験から開始
   const handleLastExam = () => {
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(HomeScreen);
+export default HomeScreen;

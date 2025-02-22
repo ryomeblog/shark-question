@@ -13,7 +13,6 @@ class ExamStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.loadExams();
   }
 
   /**
@@ -222,4 +221,4 @@ class ExamStore {
   }
 }
 
-export default new ExamStore();
+export const examStore = new ExamStore();

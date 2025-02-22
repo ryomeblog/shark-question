@@ -7,8 +7,8 @@
 
   // ESLint設定
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.organizeImports": true
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
   },
 
   // ファイルタイプごとの設定
@@ -19,9 +19,15 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
 
   // ESLint検証対象
-  "eslint.validate": ["javascript", "javascriptreact"]
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact"
+  ],
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  }
 }

@@ -8,14 +8,14 @@ import ScreenContainer from '../../components/layout/ScreenContainer';
 import QuestionCard from '../../components/question/QuestionCard';
 import ResultCard from '../../components/question/ResultCard';
 import TimerDisplay from '../../components/question/TimerDisplay';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 import QuestionModeSelect from './QuestionModeSelect';
 
 /**
  * 問題画面
  */
-const QuestionScreen = observer(({ navigation, route, stores }) => {
-  const { examStore, progressStore } = stores;
+const QuestionScreen = observer(({ navigation, route }) => {
+  const { examStore, progressStore } = useStores();
   const { examId, genre, mode = 'random', ordered = false } = route.params || {};
 
   const [questions, setQuestions] = useState([]);
@@ -59,7 +59,7 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
       setTimerRunning(true);
       setResults([]);
     }
-  }, [currentExam, mode, genre, ordered, showModeSelect]);
+  }, [currentExam, mode, genre, ordered, showModeSelect, progressStore, examStore]);
 
   // 回答処理
   const handleAnswer = useCallback(
@@ -108,7 +108,7 @@ const QuestionScreen = observer(({ navigation, route, stores }) => {
         }
       }, 3000);
     },
-    [currentIndex, questions, startTime, results],
+    [currentIndex, questions, startTime, results, examId, progressStore],
   );
 
   // モード選択完了
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(QuestionScreen);
+export default QuestionScreen;

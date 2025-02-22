@@ -8,14 +8,14 @@ import ScreenContainer from '../../components/layout/ScreenContainer';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import CustomFAB from '../../components/ui/CustomFAB';
 import ListItem from '../../components/ui/ListItem';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 import GenreFormModal from './GenreFormModal';
 
 /**
  * ジャンル管理画面
  */
-const GenreScreen = observer(({ navigation, route, stores }) => {
-  const { examStore } = stores;
+const GenreScreen = observer(({ navigation, route }) => {
+  const { examStore } = useStores();
   const [selectedExamId, setSelectedExamId] = useState(route.params?.examId);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -163,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(GenreScreen);
+export default GenreScreen;

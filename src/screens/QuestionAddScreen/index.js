@@ -8,14 +8,14 @@ import ScreenContainer from '../../components/layout/ScreenContainer';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import CustomFAB from '../../components/ui/CustomFAB';
 import ListItem from '../../components/ui/ListItem';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 import QuestionFormModal from './QuestionFormModal';
 
 /**
  * 問題追加画面
  */
-const QuestionAddScreen = observer(({ navigation, route, stores }) => {
-  const { examStore } = stores;
+const QuestionAddScreen = observer(({ navigation, route }) => {
+  const { examStore } = useStores();
   const [selectedExamId, setSelectedExamId] = useState(route.params?.examId);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -65,7 +65,7 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
     }
   }, [selectedQuestion, currentExam, examStore]);
 
-  // フォームモーダルの保存
+  // 単一問題の保存
   const handleSave = useCallback(
     async questionData => {
       if (!currentExam) return;
@@ -85,6 +85,22 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
       setSelectedQuestion(null);
     },
     [selectedQuestion, currentExam, examStore],
+  );
+
+  // 複数問題の一括保存
+  const handleSaveMultiple = useCallback(
+    async questionsData => {
+      if (!currentExam) return;
+
+      // 全ての問題を順番に追加
+      for (const questionData of questionsData) {
+        await examStore.addQuestion(currentExam.id, questionData);
+      }
+      
+      setShowFormModal(false);
+      setSelectedQuestion(null);
+    },
+    [currentExam, examStore],
   );
 
   return (
@@ -143,6 +159,7 @@ const QuestionAddScreen = observer(({ navigation, route, stores }) => {
         exam={currentExam}
         question={selectedQuestion}
         onSave={handleSave}
+        onSaveMultiple={handleSaveMultiple}
         onClose={() => {
           setShowFormModal(false);
           setSelectedQuestion(null);
@@ -181,4 +198,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(QuestionAddScreen);
+export default QuestionAddScreen;

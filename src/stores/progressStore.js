@@ -7,25 +7,53 @@ import StorageManager from '../utils/storage';
 class ProgressStore {
   wrongAnswers = [];
   answerHistory = [];
+  isInitialized = false;
   loading = false;
   error = null;
 
   constructor() {
     makeAutoObservable(this);
-    this.loadProgress();
+    this.initialize();
   }
 
   /**
-   * 進捗データの読み込み
+   * ストアの初期化
+   */
+  async initialize() {
+    if (this.isInitialized) return;
+    try {
+      this.loading = true;
+      const progress = await StorageManager.getProgress();
+      runInAction(() => {
+        this.wrongAnswers = progress.wrongAnswers || [];
+        this.answerHistory = progress.answerHistory || [];
+        this.isInitialized = true;
+        this.loading = false;
+        this.error = null;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.wrongAnswers = [];
+        this.answerHistory = [];
+        this.isInitialized = true;
+        this.loading = false;
+        this.error = error.message;
+      });
+    }
+  }
+
+  /**
+   * 進捗データの読み込み（再読み込み用）
    */
   async loadProgress() {
     try {
       this.loading = true;
       const progress = await StorageManager.getProgress();
       runInAction(() => {
-        this.wrongAnswers = progress.wrongAnswers;
-        this.answerHistory = progress.answerHistory;
+        this.wrongAnswers = progress.wrongAnswers || [];
+        this.answerHistory = progress.answerHistory || [];
         this.loading = false;
+        this.error = null;
       });
     } catch (error) {
       runInAction(() => {
@@ -53,6 +81,7 @@ class ProgressStore {
 
       runInAction(() => {
         this.wrongAnswers = updatedWrongAnswers;
+        this.error = null;
       });
     } catch (error) {
       runInAction(() => {
@@ -77,6 +106,7 @@ class ProgressStore {
 
       runInAction(() => {
         this.answerHistory = updatedHistory;
+        this.error = null;
       });
     } catch (error) {
       runInAction(() => {
@@ -111,6 +141,7 @@ class ProgressStore {
       runInAction(() => {
         this.error = error.message;
       });
+      throw error;
     }
   }
 
@@ -123,6 +154,7 @@ class ProgressStore {
       runInAction(() => {
         this.wrongAnswers = [];
         this.answerHistory = [];
+        this.error = null;
       });
     } catch (error) {
       runInAction(() => {
@@ -132,4 +164,6 @@ class ProgressStore {
   }
 }
 
-export default new ProgressStore();
+// シングルトンインスタンスをエクスポート
+const progressStore = new ProgressStore();
+export { progressStore };

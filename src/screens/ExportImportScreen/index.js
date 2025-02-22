@@ -6,7 +6,7 @@ import { Button, Dialog, Portal, Text, TextInput } from 'react-native-paper';
 
 import Header from '../../components/layout/Header';
 import ScreenContainer from '../../components/layout/ScreenContainer';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 import {
   compressAndEncode,
   decodeAndDecompress,
@@ -16,8 +16,8 @@ import {
 /**
  * JSONエクスポート/インポート画面
  */
-const ExportImportScreen = observer(({ stores, navigation }) => {
-  const { examStore } = stores;
+const ExportImportScreen = observer(({ navigation }) => {
+  const { examStore } = useStores();
   const [selectedExamId, setSelectedExamId] = useState(null);
   const [exportedData, setExportedData] = useState('');
   const [importData, setImportData] = useState('');
@@ -211,4 +211,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(ExportImportScreen);
+export default ExportImportScreen;

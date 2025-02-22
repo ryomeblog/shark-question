@@ -7,13 +7,13 @@ import Header from '../../components/layout/Header';
 import ScreenContainer from '../../components/layout/ScreenContainer';
 import CustomButton from '../../components/ui/CustomButton';
 import ListItem from '../../components/ui/ListItem';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 
 /**
  * 結果画面
  */
-const ResultScreen = observer(({ navigation, route, stores }) => {
-  const { examStore } = stores;
+const ResultScreen = observer(({ navigation, route }) => {
+  const { examStore } = useStores();
   const { examId, results } = route.params;
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
 
@@ -296,4 +296,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(ResultScreen);
+export default ResultScreen;

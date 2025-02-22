@@ -3,7 +3,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import AppNavigator from './src/navigation/AppNavigator';
-import rootStore from './src/stores';
+import rootStore, { StoresContext } from './src/stores';
 import StorageManager from './src/utils/storage';
 
 /**
@@ -22,11 +22,10 @@ export default function App() {
           await StorageManager.initializeStorage();
         }
 
-        // ストアの初期データ読み込み
-        await Promise.all([
-          rootStore.examStore.loadExams(),
-          rootStore.progressStore.loadProgress(),
-        ]);
+        // ストアの初期化処理を逐次的に実行
+        await rootStore.examStore.loadExams();
+        await rootStore.progressStore.loadProgress();
+        await rootStore.aiStore.initialize();
 
         setIsReady(true);
       } catch (error) {
@@ -44,10 +43,12 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
-      <PaperProvider>
-        <AppNavigator />
-      </PaperProvider>
-    </SafeAreaProvider>
+    <StoresContext.Provider value={rootStore}>
+      <SafeAreaProvider>
+        <PaperProvider>
+          <AppNavigator />
+        </PaperProvider>
+      </SafeAreaProvider>
+    </StoresContext.Provider>
   );
 }

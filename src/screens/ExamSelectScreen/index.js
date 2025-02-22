@@ -6,13 +6,13 @@ import { Divider, List, Text } from 'react-native-paper';
 import Header from '../../components/layout/Header';
 import ScreenContainer from '../../components/layout/ScreenContainer';
 import CustomButton from '../../components/ui/CustomButton';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 
 /**
  * 試験選択画面
  */
-const ExamSelectScreen = observer(({ navigation, stores }) => {
-  const { examStore } = stores;
+const ExamSelectScreen = observer(({ navigation }) => {
+  const { examStore } = useStores();
 
   // 試験を選択した時の処理
   const handleExamSelect = async examId => {
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(ExamSelectScreen);
+export default ExamSelectScreen;

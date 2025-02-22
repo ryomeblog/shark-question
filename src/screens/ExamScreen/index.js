@@ -7,14 +7,14 @@ import ScreenContainer from '../../components/layout/ScreenContainer';
 import ConfirmDialog from '../../components/ui/ConfirmDialog';
 import CustomFAB from '../../components/ui/CustomFAB';
 import ListItem from '../../components/ui/ListItem';
-import { withStores } from '../../stores';
+import { useStores } from '../../stores';
 import ExamFormModal from './ExamFormModal';
 
 /**
  * 試験管理画面
  */
-const ExamScreen = observer(({ navigation, stores }) => {
-  const { examStore } = stores;
+const ExamScreen = observer(({ navigation }) => {
+  const { examStore } = useStores();
   const [showFormModal, setShowFormModal] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedExam, setSelectedExam] = useState(null);
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withStores(ExamScreen);
+export default ExamScreen;
