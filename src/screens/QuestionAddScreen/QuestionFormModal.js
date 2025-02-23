@@ -133,7 +133,7 @@ const QuestionFormModal = ({ visible, exam, question, onSave, onSaveMultiple, on
         choices: question.choices.map(c => ({
           id: c.id,
           choice: c.choice.trim(),
-          isCorrect: c.is_correct,
+          isCorrect: c.is_correct || c.isCorrect,
         })),
       }));
       onSaveMultiple(formattedQuestions); // 一括保存用の関数を呼び出し

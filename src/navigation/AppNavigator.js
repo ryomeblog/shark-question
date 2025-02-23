@@ -7,6 +7,7 @@ import ExamScreen from '../screens/ExamScreen';
 import ExamSelectScreen from '../screens/ExamSelectScreen';
 import ExportImportScreen from '../screens/ExportImportScreen';
 import GenreScreen from '../screens/GenreScreen';
+import HistoryScreen from '../screens/HistoryScreen';
 import HomeScreen from '../screens/HomeScreen';
 import QuestionAddScreen from '../screens/QuestionAddScreen';
 import QuestionScreen from '../screens/QuestionScreen';
@@ -55,6 +56,11 @@ const AppNavigator = () => {
             animation: 'fade',
             gestureEnabled: false,
           }}
+        />
+
+        <Stack.Screen
+          name="History"
+          component={HistoryScreen}
         />
 
         <Stack.Screen

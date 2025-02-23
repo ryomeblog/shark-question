@@ -49,6 +49,11 @@ const HomeScreen = observer(({ navigation }) => {
       label: 'データ管理',
       onPress: () => navigation.navigate('ExportImport'),
     },
+    {
+      icon: 'chart-bar',
+      label: '履歴',
+      onPress: () => navigation.navigate('History'),
+    },
   ];
 
   return (

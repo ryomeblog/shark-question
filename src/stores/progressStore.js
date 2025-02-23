@@ -7,6 +7,7 @@ import StorageManager from '../utils/storage';
 class ProgressStore {
   wrongAnswers = [];
   answerHistory = [];
+  resultHistory = [];  // 結果履歴を追加
   isInitialized = false;
   loading = false;
   error = null;
@@ -27,6 +28,7 @@ class ProgressStore {
       runInAction(() => {
         this.wrongAnswers = progress.wrongAnswers || [];
         this.answerHistory = progress.answerHistory || [];
+        this.resultHistory = progress.resultHistory || [];  // 結果履歴の初期化
         this.isInitialized = true;
         this.loading = false;
         this.error = null;
@@ -52,6 +54,7 @@ class ProgressStore {
       runInAction(() => {
         this.wrongAnswers = progress.wrongAnswers || [];
         this.answerHistory = progress.answerHistory || [];
+        this.resultHistory = progress.resultHistory || [];
         this.loading = false;
         this.error = null;
       });
@@ -131,29 +134,128 @@ class ProgressStore {
    * @param {Array} wrongAnswers - 不正解の問題リスト
    * @param {Array} answerHistory - 解答履歴リスト
    */
-  async saveProgress(wrongAnswers, answerHistory) {
-    try {
-      await StorageManager.saveProgress({
-        wrongAnswers,
-        answerHistory,
-      });
-    } catch (error) {
-      runInAction(() => {
-        this.error = error.message;
-      });
-      throw error;
-    }
+  async saveProgress(wrongAnswers, answerHistory, resultHistory = this.resultHistory) {
+  try {
+    await StorageManager.saveProgress({
+      wrongAnswers,
+      answerHistory,
+      resultHistory,
+    });
+  } catch (error) {
+    runInAction(() => {
+      this.error = error.message;
+    });
+    throw error;
   }
+}
+
+/**
+ * 結果履歴の追加
+ * @param {Object} result - 結果データ
+ * @param {number} result.examId - 試験ID
+ * @param {number} result.totalQuestions - 総問題数
+ * @param {number} result.correctAnswers - 正解数
+ * @param {number} result.totalTime - 所要時間
+ * @param {Object} result.mode - 解答モード
+ */
+async addResultHistory(result) {
+  try {
+    const newResult = {
+      id: Date.now(),
+      timestamp: Date.now(),
+      ...result,
+    };
+
+    const updatedHistory = [...this.resultHistory, newResult];
+    await this.saveProgress(this.wrongAnswers, this.answerHistory, updatedHistory);
+
+    runInAction(() => {
+      this.resultHistory = updatedHistory;
+      this.error = null;
+    });
+  } catch (error) {
+    runInAction(() => {
+      this.error = error.message;
+    });
+  }
+}
+
+/**
+ * 試験IDに基づく結果履歴の取得
+ * @param {number} examId - 試験ID
+ * @returns {Array} 結果履歴の配列
+ */
+getResultHistories(examId) {
+  return this.resultHistory
+    .filter(result => result.examId === examId)
+    .sort((a, b) => b.timestamp - a.timestamp);
+}
+
+/**
+ * 試験の統計情報を取得
+ * @param {number} examId - 試験ID
+ * @returns {Object} 統計情報
+ */
+getExamStats(examId) {
+  const histories = this.getResultHistories(examId);
+  if (histories.length === 0) {
+    return {
+      totalAnswered: 0,
+      correctAnswers: 0,
+      averageTime: 0,
+    };
+  }
+
+  const totalAnswered = histories.reduce((sum, h) => sum + h.totalQuestions, 0);
+  const correctAnswers = histories.reduce((sum, h) => sum + h.correctAnswers, 0);
+  const averageTime = histories.reduce((sum, h) => sum + h.totalTime, 0) / histories.length;
+
+  return {
+    totalAnswered,
+    correctAnswers,
+    averageTime,
+  };
+}
 
   /**
    * 進捗データのクリア
    */
   async clearProgress() {
     try {
-      await this.saveProgress([], []);
+      await this.saveProgress([], [], []);
       runInAction(() => {
         this.wrongAnswers = [];
         this.answerHistory = [];
+        this.resultHistory = [];
+        this.error = null;
+      });
+    } catch (error) {
+      runInAction(() => {
+        this.error = error.message;
+      });
+    }
+  }
+
+  /**
+   * 試験IDに基づく進捗データのクリア
+   * @param {number} examId - 試験ID
+   */
+  async clearProgressByExamId(examId) {
+    try {
+      const filteredWrongAnswers = this.wrongAnswers.filter(wa => wa.examId !== examId);
+      const filteredAnswerHistory = this.answerHistory.filter(ah => ah.examId !== examId);
+      const filteredResultHistory = this.resultHistory.filter(rh => rh.examId !== examId);
+
+      await this.saveProgress(
+        filteredWrongAnswers,
+        filteredAnswerHistory,
+        filteredResultHistory
+      );
+
+      runInAction(() => {
+        this.wrongAnswers = filteredWrongAnswers;
+        this.answerHistory = filteredAnswerHistory;
+        this.resultHistory = filteredResultHistory;
         this.error = null;
       });
     } catch (error) {

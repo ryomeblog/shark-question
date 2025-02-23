@@ -5,6 +5,7 @@ import { Divider, Text, Title } from 'react-native-paper';
 
 import Header from '../../components/layout/Header';
 import ScreenContainer from '../../components/layout/ScreenContainer';
+import ResultPieChart from '../../components/result/ResultPieChart';
 import CustomButton from '../../components/ui/CustomButton';
 import ListItem from '../../components/ui/ListItem';
 import { useStores } from '../../stores';
@@ -13,9 +14,23 @@ import { useStores } from '../../stores';
  * 結果画面
  */
 const ResultScreen = observer(({ navigation, route }) => {
-  const { examStore } = useStores();
-  const { examId, results } = route.params;
+  const { examStore, progressStore } = useStores();
+  const { examId, results, mode } = route.params;
   const [selectedQuestionIds, setSelectedQuestionIds] = useState([]);
+
+  // 結果を保存
+  React.useEffect(() => {
+    const saveResult = async () => {
+      await progressStore.addResultHistory({
+        examId,
+        totalQuestions: results.length,
+        correctAnswers: results.filter(r => r.isCorrect).length,
+        totalTime: results.reduce((sum, r) => sum + r.timeSpent, 0),
+        mode,
+      });
+    };
+    saveResult();
+  }, [examId, results, mode, progressStore]);
 
   // 問題の選択状態を切り替える
   const toggleQuestionDetail = questionId => {
@@ -88,23 +103,16 @@ const ResultScreen = observer(({ navigation, route }) => {
         <View style={styles.summaryContainer}>
           <Title style={styles.examName}>{currentExam?.name}</Title>
 
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text style={styles.statLabel}>正解数</Text>
-              <Title style={styles.statValue}>
-                {summary.correctAnswers} / {summary.totalQuestions}
-              </Title>
-              <Text style={styles.statSubtext}>
-                ({Math.round((summary.correctAnswers / summary.totalQuestions) * 100)}
-                %)
-              </Text>
-            </View>
+          <ResultPieChart
+            correctCount={summary.correctAnswers}
+            totalCount={summary.totalQuestions}
+            size={180}
+          />
 
-            <View style={styles.statItem}>
-              <Text style={styles.statLabel}>合計時間</Text>
-              <Title style={styles.statValue}>{formatTime(summary.totalTime)}</Title>
-              <Text style={styles.statSubtext}>平均 {formatTime(summary.averageTime)} / 問</Text>
-            </View>
+          <View style={styles.timeContainer}>
+            <Text style={styles.timeLabel}>合計時間</Text>
+            <Title style={styles.timeValue}>{formatTime(summary.totalTime)}</Title>
+            <Text style={styles.timeSubtext}>平均 {formatTime(summary.averageTime)} / 問</Text>
           </View>
         </View>
 
@@ -202,23 +210,20 @@ const styles = StyleSheet.create({
     color: '#000000',
     marginBottom: 24,
   },
-  statsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-  },
-  statItem: {
+  timeContainer: {
     alignItems: 'center',
+    marginTop: 24,
   },
-  statLabel: {
+  timeLabel: {
     fontSize: 16,
     color: '#000000',
   },
-  statValue: {
+  timeValue: {
     fontSize: 28,
     marginVertical: 4,
     color: '#000000',
   },
-  statSubtext: {
+  timeSubtext: {
     fontSize: 14,
     color: '#000000',
   },
